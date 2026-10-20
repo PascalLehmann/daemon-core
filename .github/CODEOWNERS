@@ -1,0 +1,58 @@
+# ------------------------------------------------------------------
+# Daemon-Core CODEOWNERS
+#
+# Version: 1.0
+# Last Updated: 2026-10-20
+# ------------------------------------------------------------------
+
+# Global owner
+* @PascalLehmann
+
+# Core documentation
+README.md @PascalLehmann
+AGENT.md @PascalLehmann
+ARCHITECTURE.md @PascalLehmann
+CHANGELOG.md @PascalLehmann
+
+# Architecture Decisions
+/docs/adr/ @PascalLehmann
+
+# Specifications
+/docs/THEME_SPECIFICATION.md @PascalLehmann
+/docs/COMPONENT_SPECIFICATION.md @PascalLehmann
+/docs/CONFIGURATION_SPECIFICATION.md @PascalLehmann
+
+# Project documentation
+/docs/ @PascalLehmann
+
+# GitHub configuration
+/.github/ @PascalLehmann
+
+# Core services
+/services/ @PascalLehmann
+
+# Themes
+/themes/ @PascalLehmann
+
+# Shared components
+/daemon-shared/ @PascalLehmann
+
+# Theme engine
+/daemon-theme/ @PascalLehmann
+
+# Authentication
+/daemon-greeter/ @PascalLehmann
+/daemon-lockscreen/ @PascalLehmann
+
+# Shell modules
+/daemon-bar/ @PascalLehmann
+/daemon-dashboard/ @PascalLehmann
+/daemon-controlcenter/ @PascalLehmann
+/daemon-notifications/ @PascalLehmann
+/daemon-wallpaper/ @PascalLehmann
+
+# Configuration
+/config/ @PascalLehmann
+
+# IPC
+/ipc/ @PascalLehmann
