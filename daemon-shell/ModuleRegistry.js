@@ -1,10 +1,12 @@
+import "SessionController.js" as SessionController
+
 var modules = {
     greeter: '../daemon-greeter/main.qml',
     bar: '../daemon-bar/main.qml',
     lockscreen: '../daemon-lockscreen/main.qml',
     dashboard: '../daemon-dashboard/main.qml',
     controlcenter: '../daemon-controlcenter/main.qml',
-    shell: 'main.qml'
+    shell: '../daemon-shell/main.qml'
 };
 
 function getModuleSource(name) {
@@ -15,10 +17,15 @@ function getModuleSource(name) {
     return modules[name];
 }
 
-function getModuleOrder(profileModules) {
-    if (!Array.isArray(profileModules) || profileModules.length === 0) {
-        return ['bar', 'dashboard'];
-    }
+function getModuleOrder(profileModules, sessionState) {
+    const profileList = Array.isArray(profileModules) && profileModules.length > 0
+        ? profileModules.filter(Boolean)
+        : ['bar', 'dashboard'];
 
-    return profileModules.filter(Boolean);
+    const runtimeModules = SessionController.resolveRuntimeModules({ modules: profileList }, sessionState);
+    return runtimeModules;
+}
+
+function getModuleSelection(profile, sessionState) {
+    return getModuleOrder(profile && profile.modules ? profile.modules : ['bar', 'dashboard'], sessionState);
 }

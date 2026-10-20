@@ -6,6 +6,7 @@ import "../services/ConfigService.js" as ConfigService
 import "../services/ProfileService.js" as ProfileService
 import "../services/ThemeService.js" as ThemeService
 import "ModuleRegistry.js" as ModuleRegistry
+import "SessionController.js" as SessionController
 
 Rectangle {
     id: shell
@@ -17,7 +18,8 @@ Rectangle {
     property var profile: ProfileService.loadProfile()
     property var style: SharedStyle.Style {}
     property var themeManager: ThemeManager.ThemeManager {}
-    property var activeModules: ModuleRegistry.getModuleOrder(profile.modules || ['bar', 'dashboard'])
+    property string sessionState: SessionController.getDefaultSessionState(profile)
+    property var activeModules: ModuleRegistry.getModuleSelection(profile, sessionState)
 
     function applyTheme(themeId) {
         const palette = ThemeService.resolveTheme(themeId || config.theme || profile.theme || 'daemon-dark');
@@ -25,6 +27,12 @@ Rectangle {
         themeManager.switchTheme(palette.id || 'daemon-dark');
         config.theme = palette.id || 'daemon-dark';
         return palette;
+    }
+
+    function applySessionContext(nextState) {
+        sessionState = SessionController.normalizeSessionState(nextState, sessionState);
+        activeModules = ModuleRegistry.getModuleSelection(profile, sessionState);
+        return activeModules;
     }
 
     Component.onCompleted: {
@@ -59,7 +67,7 @@ Rectangle {
             anchors.right: parent.right
             anchors.rightMargin: style.spacingMd
             anchors.verticalCenter: parent.verticalCenter
-            text: 'Theme: ' + (config.theme || profile.theme || 'daemon-dark')
+            text: 'Theme: ' + (config.theme || profile.theme || 'daemon-dark') + ' | Session: ' + sessionState
             color: style.textSecondary
             font.pixelSize: style.fontSizeCaption
         }
@@ -95,14 +103,14 @@ Rectangle {
                 }
 
                 Text {
-                    text: 'Active modules: ' + activeModules.join(', ')
+                    text: 'Runtime modules: ' + activeModules.join(', ')
                     color: style.textSecondary
                     font.pixelSize: style.fontSizeBody
                     wrapMode: Text.WordWrap
                 }
 
                 Text {
-                    text: 'Theme hot-reload: enabled'
+                    text: 'Session state: ' + sessionState
                     color: style.textSecondary
                     font.pixelSize: style.fontSizeBody
                 }
