@@ -2,5 +2,6 @@
   "animations": true,
   "blur": true,
   "showWeather": true,
-  "showClockSeconds": false
+  "showClockSeconds": false,
+  "highContrast": false
 }

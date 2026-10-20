@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Daemon-Core Settings",
+  "type": "object",
+  "properties": {
+    "animations": { "type": "boolean" },
+    "blur": { "type": "boolean" },
+    "showWeather": { "type": "boolean" },
+    "showClockSeconds": { "type": "boolean" },
+    "highContrast": { "type": "boolean" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Daemon-Core Theme Reference",
+  "type": "object",
+  "required": ["theme"],
+  "properties": {
+    "theme": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,15 @@
+# daemon-bar
+
+This module contains the top status bar.
+
+## Responsibilities
+
+- workspaces
+- audio state
+- network state
+- battery state
+- clock and weather
+
+## Rules
+
+- UI must consume services, not hardcode local logic.

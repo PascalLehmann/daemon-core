@@ -1,0 +1,15 @@
+# daemon-greeter
+
+This module contains the login and session selection experience.
+
+## Responsibilities
+
+- authentication UI
+- user selection
+- session selection
+- greetd coordination
+
+## Rules
+
+- Keep logic delegated to services.
+- Do not duplicate login logic elsewhere.

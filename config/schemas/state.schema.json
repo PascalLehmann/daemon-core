@@ -2,17 +2,23 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Daemon-Core Runtime State",
   "type": "object",
-  "required": [
-    "lastWorkspace",
-    "lastTheme"
-  ],
+  "required": ["lastWorkspace", "lastTheme", "lastProfile", "lastLocale"],
   "properties": {
     "lastWorkspace": {
       "type": "integer",
       "minimum": 1
     },
     "lastTheme": {
-      "type": "string"
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "lastProfile": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "lastLocale": {
+      "type": "string",
+      "pattern": "^[A-Za-z]{2}_[A-Z]{2}$"
     }
   },
   "additionalProperties": false
