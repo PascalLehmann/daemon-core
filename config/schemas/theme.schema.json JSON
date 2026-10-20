@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Daemon-Core Theme",
+  "type": "object",
+  "required": [
+    "name",
+    "id",
+    "version",
+    "colors",
+    "spacing",
+    "radius",
+    "typography",
+    "animations",
+    "effects",
+    "wallpaper",
+    "icons"
+  ],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+
+    "colors": {
+      "type": "object"
+    },
+
+    "spacing": {
+      "type": "object"
+    },
+
+    "radius": {
+      "type": "object"
+    },
+
+    "typography": {
+      "type": "object"
+    },
+
+    "animations": {
+      "type": "object"
+    },
+
+    "effects": {
+      "type": "object"
+    },
+
+    "wallpaper": {
+      "type": "object"
+    },
+
+    "icons": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": false
+}
