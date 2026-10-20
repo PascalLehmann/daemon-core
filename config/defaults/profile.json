@@ -1,0 +1,11 @@
+{
+  "name": "desktop",
+  "theme": "daemon-dark",
+  "developerMode": false,
+  "modules": [
+    "bar",
+    "dashboard",
+    "notifications",
+    "controlcenter"
+  ]
+}
