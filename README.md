@@ -8,7 +8,7 @@
 
 Daemon-Core verfolgt das Ziel, eine vollständig integrierte Desktop-Erfahrung für Linux bereitzustellen.
 
-Anstatt zahlreiche voneinander unabhängige Projekte miteinander zu kombinieren, soll Daemon-Core eine gemeinsame Plattform bereitstellen, die alle wichtigen Desktop-Komponenten aus einer einzigen Codebasis heraus entwickelt.
+Anstatt zahlreiche voneinander unabhängige Werkzeuge zu kombinieren, soll Daemon-Core eine gemeinsame Plattform bereitstellen, die Login-Manager, Lockscreen, Bar, Dashboard, Benachrichtigungen und Systemeinstellungen aus einer konsistenten Codebasis heraus bereitstellt.
 
 Typische Linux-Setups bestehen heute oft aus:
 
@@ -20,14 +20,14 @@ Typische Linux-Setups bestehen heute oft aus:
 - Wofi
 - Mako
 - Dunst
-- verschiedenen Shell-Skripten
+- diversen Shell-Skripten
 
 Jede dieser Komponenten besitzt:
 
-- eigene Konfigurationsdateien
+- eigene Konfigurationen
 - eigene Themes
-- eigene Designprinzipien
-- eigene Updatezyklen
+- eigene Wartung
+- eigene Designsprachen
 
 Daemon-Core verfolgt einen anderen Ansatz:
 
@@ -43,62 +43,80 @@ Daemon-Core verfolgt einen anderen Ansatz:
 
 # Mission
 
-Daemon-Core soll langfristig eine moderne Linux-Plattform bieten, die sich an den positiven Eigenschaften folgender Systeme orientiert:
+Daemon-Core soll langfristig eine moderne Linux-Plattform bereitstellen, die sich an den positiven Eigenschaften folgender Systeme orientiert:
 
 - macOS
 - Windows 11
-- Android Material You
 - ChromeOS
+- Material Design 3
 
 ohne deren Designs direkt zu kopieren.
 
 Das Projekt soll:
 
 - modern
-- schnell
+- performant
 - modular
 - erweiterbar
-- themebar
 - wartbar
 - entwicklerfreundlich
+- benutzerfreundlich
 
 sein.
 
 ---
 
+# Warum Daemon-Core?
+
+Aktuelle Hyprland-Setups bestehen häufig aus vielen voneinander unabhängigen Projekten.
+
+Beispiel:
+
+```text
+Login         → SDDM
+Lockscreen    → Hyprlock
+Bar           → Waybar
+Launcher      → Rofi
+Notifications → Mako
+Powermenu     → Wlogout
+Settings      → Eigene Skripte
+```
+
+Das führt oft zu:
+
+- unterschiedlichen Themes
+- doppelten Konfigurationen
+- inkonsistenter Bedienung
+- hohem Wartungsaufwand
+
+Daemon-Core soll stattdessen eine einheitliche Plattform bereitstellen.
+
+---
+
 # Projektziele
 
-## Kurzfristig
-
-Aufbau einer stabilen Basis:
+## Kurzfristige Ziele
 
 - Theme Engine
 - Shared Components
 - Greeter
 - Lockscreen
 
----
+## Mittelfristige Ziele
 
-## Mittelfristig
-
-Erstellung einer vollständigen Desktop-Shell:
-
-- Bar
+- Statusleiste
 - Dashboard
-- Control Center
 - Notification Center
+- Control Center
 
----
-
-## Langfristig
-
-Entwicklung einer vollständigen Desktop-Plattform inklusive:
+## Langfristige Ziele
 
 - Plugin-System
-- Marketplace
-- Installationsassistent
-- Backup-System
-- Profilverwaltung
+- Profil-System
+- Backup & Restore
+- Grafischer Installer
+- Theme Marketplace
+- Komponenten-Marktplatz
 
 ---
 
@@ -108,29 +126,25 @@ Entwicklung einer vollständigen Desktop-Plattform inklusive:
 
 Daemon-Core wird ausschließlich für Wayland entwickelt.
 
-X11-Kompatibilität ist kein Ziel.
-
-Dadurch bleiben Architektur und Entwicklungsaufwand überschaubar.
+X11-Kompatibilität ist kein Projektziel.
 
 ---
 
 ## Quickshell First
 
-Alle Benutzeroberflächen basieren auf:
+Alle Oberflächen basieren auf:
 
 - Quickshell
 - Qt6
 - QML
 
-Dadurch entsteht ein konsistentes UI-System.
-
 ---
 
 ## Theme Driven Design
 
-Farben, Schriftarten, Abstände und Effekte dürfen nicht fest im Code hinterlegt werden.
+Komponenten besitzen keine fest hinterlegten Farben.
 
-Alle visuellen Eigenschaften stammen aus der Theme Engine.
+Farben, Schriftarten, Abstände und Effekte stammen ausschließlich aus der Theme Engine.
 
 ---
 
@@ -141,28 +155,28 @@ Jede Komponente muss unabhängig funktionieren.
 Beispiele:
 
 - Greeter
-- Bar
+- Lockscreen
 - Dashboard
-- Notifications
+- Notification Center
 
-dürfen möglichst geringe Abhängigkeiten zueinander besitzen.
+dürfen nur minimale Abhängigkeiten besitzen.
 
 ---
 
 ## Shared Components
 
-UI-Komponenten werden nur einmal entwickelt.
+Benutzerschnittstellen werden nur einmal entwickelt.
 
 Beispiele:
 
 - Button
 - Card
-- Avatar
 - Dialog
+- Avatar
 - SearchField
 - NotificationCard
 
-Alle Bereiche des Systems verwenden dieselben Komponenten.
+Alle Module greifen auf dieselben Komponenten zurück.
 
 ---
 
@@ -177,46 +191,44 @@ Moderner Login-Manager auf Basis von:
 
 Funktionen:
 
-- Benutzerauswahl
-- Passwortanmeldung
-- Sitzungsauswahl
-- Multi-Monitor-Unterstützung
-- Theme-Unterstützung
+- User Auswahl
+- Password Login
+- Session Auswahl
+- Multi Monitor Support
+- Theme Support
 
 ---
 
 ## Daemon Lockscreen
 
-Moderner Lockscreen mit:
+Moderner Sperrbildschirm mit:
 
-- PAM-Authentifizierung
+- PAM Authentifizierung
 - Wallpaper Blur
 - Uhr
 - Datum
 - Medieninformationen
 - Benachrichtigungen
 
-Geplante Erweiterungen:
+Langfristige Erweiterungen:
 
-- Fingerprint Support
-- Face Unlock Integration
+- Fingerprint Authentication
+- Smart Unlock
 
 ---
 
 ## Daemon Bar
 
-Moderne Statusleiste.
-
-Funktionen:
+Statusleiste für:
 
 - Workspaces
-- Fensterinformationen
+- Fenstertitel
 - Audio
-- Netzwerk
 - Bluetooth
-- Batterie
-- Uhr
+- Netzwerk
+- Akku
 - Wetter
+- Uhr
 
 ---
 
@@ -224,27 +236,20 @@ Funktionen:
 
 Zentrale Oberfläche für:
 
-- Anwendungssuche
+- App Launcher
 - Dateisuche
 - Schnellaktionen
 - Widgets
-- Systemeinstellungen
 
 ---
 
 ## Daemon Control Center
 
-Schnelleinstellungen ähnlich zu:
-
-- Windows 11 Quick Settings
-- GNOME Quick Settings
-- macOS Control Center
-
-Verwaltet:
+Schnelleinstellungen für:
 
 - WLAN
 - Bluetooth
-- Audio
+- Lautstärke
 - Helligkeit
 - VPN
 - Energieprofile
@@ -253,24 +258,26 @@ Verwaltet:
 
 ## Daemon Notification Center
 
-Zentrale Verwaltung für:
+Verwaltet:
 
 - Benachrichtigungshistorie
-- Popups
-- Aktionen
 - Prioritäten
+- Aktionen
+- Gruppierungen
 
 ---
 
 ## Daemon Wallpaper Engine
 
-Verwaltung von:
+Verwaltet:
 
-- Bildern
+- Bilder
 - Videos
-- dynamischen Hintergründen
 
-Alle Komponenten greifen auf dieselbe Wallpaper-Quelle zu.
+Langfristig:
+
+- Dynamische Wallpaper
+- Themeabhängige Wallpaper
 
 ---
 
@@ -279,14 +286,49 @@ Alle Komponenten greifen auf dieselbe Wallpaper-Quelle zu.
 Verwaltet:
 
 - Farben
-- Schriftarten
-- Rundungen
-- Blur-Effekte
 - Abstände
+- Rundungen
+- Blur-Werte
+- Schriftarten
 - Icons
 - Wallpaper
 
-Theme-Wechsel sollen ohne Neustart möglich sein.
+Themewechsel sollen ohne Neustart der Shell möglich sein.
+
+---
+
+# Zielarchitektur
+
+```text
+Boot
+ ↓
+
+systemd
+ ↓
+
+greetd
+ ↓
+
+Daemon Greeter
+ ↓
+
+Hyprland
+ ↓
+
+Daemon Services
+ ↓
+
+Daemon Bar
+ ↓
+
+Dashboard
+ ↓
+
+Notifications
+ ↓
+
+Control Center
+```
 
 ---
 
@@ -314,25 +356,16 @@ daemon-core/
 │   └── THEME_SPECIFICATION.md
 │
 ├── daemon-shared/
-│
 ├── daemon-theme/
-│
 ├── daemon-greeter/
-│
 ├── daemon-lockscreen/
-│
 ├── daemon-bar/
-│
 ├── daemon-dashboard/
-│
 ├── daemon-controlcenter/
-│
 ├── daemon-notifications/
-│
 ├── daemon-wallpaper/
 │
 ├── services/
-│
 ├── themes/
 │
 ├── README.md
@@ -342,70 +375,9 @@ daemon-core/
 
 ---
 
-# Service Architektur
+# Voraussetzungen
 
-Alle Komponenten greifen auf gemeinsame Services zurück.
-
-```text
-services/
-
-├── AudioService.qml
-├── BluetoothService.qml
-├── ConfigService.qml
-├── NetworkService.qml
-├── NotificationService.qml
-├── PowerService.qml
-├── SessionService.qml
-├── ThemeService.qml
-├── UpdateService.qml
-├── WallpaperService.qml
-└── WeatherService.qml
-```
-
-Dadurch bleibt die Benutzeroberfläche frei von Systemlogik.
-
----
-
-# Theme System
-
-Jedes Theme besitzt eine definierte Struktur.
-
-Beispiel:
-
-```json
-{
-  "name": "Daemon Dark",
-
-  "colors": {
-    "primary": "#7c3aed",
-    "background": "#111827",
-    "surface": "#1f2937",
-    "text": "#ffffff"
-  },
-
-  "spacing": {
-    "sm": 4,
-    "md": 8,
-    "lg": 16
-  },
-
-  "radius": {
-    "sm": 8,
-    "md": 16,
-    "lg": 24
-  }
-}
-```
-
-Alle Komponenten beziehen ihre Werte ausschließlich aus diesem Theme-System.
-
----
-
-# Installation
-
-## Voraussetzungen
-
-Aktuell unterstützte Plattform:
+Aktuell wird als Zielplattform angenommen:
 
 - Arch Linux
 - Hyprland
@@ -415,29 +387,63 @@ Aktuell unterstützte Plattform:
 
 ---
 
-## Benötigte Pakete
+# Installation
 
-Pflicht:
+## Systempakete
 
 ```bash
-hyprland
-greetd
-quickshell
-qt6-base
-qt6-declarative
+sudo pacman -S \
+hyprland \
+greetd \
+cage \
+qt6-base \
+qt6-declarative \
+networkmanager \
+pipewire \
+wireplumber \
+brightnessctl \
+bluez \
+playerctl \
+grim \
+slurp
 ```
 
-Empfohlen:
+---
+
+## Quickshell installieren
+
+AUR:
 
 ```bash
-pipewire
-wireplumber
-networkmanager
-bluez
-playerctl
-brightnessctl
-grim
-slurp
+yay -S quickshell
+```
+
+oder
+
+```bash
+yay -S quickshell-git
+```
+
+---
+
+## Dienste aktivieren
+
+NetworkManager:
+
+```bash
+sudo systemctl enable NetworkManager.service
+```
+
+Bluetooth:
+
+```bash
+sudo systemctl enable bluetooth.service
+```
+
+greetd:
+
+```bash
+sudo systemctl enable greetd.service
 ```
 
 ---
@@ -452,7 +458,27 @@ cd daemon-core
 
 ---
 
-## greetd konfigurieren
+## Repository prüfen
+
+```bash
+tree -L 2
+```
+
+Sollte ungefähr ergeben:
+
+```text
+daemon-core/
+├── daemon-shared
+├── daemon-theme
+├── daemon-greeter
+├── docs
+├── services
+└── themes
+```
+
+---
+
+# greetd Konfiguration
 
 Datei:
 
@@ -471,17 +497,31 @@ command = "cage -- quickshell -c daemon-greeter"
 user = "greeter"
 ```
 
----
+Hinweis:
 
-## greetd aktivieren
-
-```bash
-sudo systemctl enable greetd.service
-```
+Diese Konfiguration dient aktuell als Zielarchitektur und wird später durch den Daemon Greeter konkret umgesetzt.
 
 ---
 
-## Entwicklung
+# Entwicklungsumgebung
+
+Empfohlene Werkzeuge:
+
+- VSCode
+- Qt Creator
+- Git
+
+VSCode Erweiterungen:
+
+- QML
+- GitLens
+- Error Lens
+- Markdown All In One
+- Even Better TOML
+
+---
+
+# Entwicklung
 
 Greeter starten:
 
@@ -501,6 +541,56 @@ Dashboard starten:
 quickshell -c daemon-dashboard
 ```
 
+Lockscreen starten:
+
+```bash
+quickshell -c daemon-lockscreen
+```
+
+---
+
+# Troubleshooting
+
+## Quickshell startet nicht
+
+Version prüfen:
+
+```bash
+quickshell --version
+```
+
+---
+
+## greetd startet nicht
+
+Logs ansehen:
+
+```bash
+journalctl -u greetd -b
+```
+
+---
+
+## Hyprland startet nicht
+
+Direkt testen:
+
+```bash
+Hyprland
+```
+
+---
+
+## Schwarzer Bildschirm
+
+Testen:
+
+```bash
+cage -- quickshell
+```
+
+Fehlerausgaben analysieren.
+
 ---
 
 # Entwicklungsphasen
@@ -512,7 +602,7 @@ Foundation
 - Repository Struktur
 - Theme Engine
 - Shared Components
-- Greeter
+- Greeter MVP
 
 ---
 
@@ -520,9 +610,9 @@ Foundation
 
 Authentication
 
-- Benutzerwahl
-- Sessionwahl
-- Multi-Monitor Support
+- Benutzerverwaltung
+- Session Auswahl
+- Multi Monitor Support
 
 ---
 
@@ -532,8 +622,7 @@ Lockscreen
 
 - PAM
 - Wallpaper Blur
-- Uhr
-- Notifications
+- Benachrichtigungen
 
 ---
 
@@ -542,8 +631,8 @@ Lockscreen
 Bar
 
 - Workspaces
-- Netzwerkanzeige
 - Audio
+- Netzwerk
 - Batterie
 
 ---
@@ -553,7 +642,7 @@ Bar
 Dashboard
 
 - Suche
-- App Launcher
+- Launcher
 - Widgets
 
 ---
@@ -564,7 +653,7 @@ Notification Center
 
 - Historie
 - Aktionen
-- Gruppen
+- Gruppierung
 
 ---
 
@@ -583,11 +672,10 @@ Control Center
 
 Full Desktop Experience
 
-- Vollständige Integration aller Komponenten
-- Plugin-System
-- Profile-System
+- Vollständige Shell
+- Profil-System
+- Plugin-Schnittstelle
 - Backup & Restore
-- Theme Marketplace
 
 ---
 
@@ -595,7 +683,7 @@ Full Desktop Experience
 
 ## Profile System
 
-Vordefinierte Profile:
+Verfügbare Profile:
 
 - Minimal
 - Laptop
@@ -617,9 +705,9 @@ Grafischer Installationsassistent für:
 
 ---
 
-## Backup System
+## Backup & Restore
 
-Geplante Befehle:
+Langfristige Ziele:
 
 ```bash
 daemon backup create
@@ -643,7 +731,7 @@ daemon theme install daemon-dark
 
 ---
 
-## Plugin Marketplace
+## Component Marketplace
 
 Langfristige Vision:
 
@@ -659,28 +747,27 @@ daemon install media-widget
 
 # Inspirationsquellen
 
-Die folgenden Projekte dienen als Inspirationsquelle für Architektur, Design und Konzepte:
-
-## Technologien
+Technologien:
 
 - Hyprland
 - Quickshell
 - greetd
 
-## Login & Lockscreen
+Login & Lockscreen:
 
 - qylock
 - greetd-qsgreeter
 - SDDM
 
-## Desktop Shells
+Desktop Shells:
 
 - Caelestia Shell
 - DankMaterialShell
 - NibrasShell
 - dots-hyprland
+- ML4W
 
-## Themes
+Themes:
 
 - Astronaut Theme
 - Catppuccin SDDM
@@ -688,16 +775,17 @@ Die folgenden Projekte dienen als Inspirationsquelle für Architektur, Design un
 - SilentSDDM
 - Aerial SDDM
 
-Es werden keine fremden Assets oder Quellcodes kopiert.
+Architekturen, Konzepte und Designideen dienen als Inspiration.
+
+Es werden keine fremden Quellcodes oder Assets kopiert.
 
 ---
 
 # Mitwirken
 
-Beiträge sind willkommen.
+Vor Änderungen bitte lesen:
 
-Bitte vor größeren Änderungen folgende Dokumente lesen:
-
+- README.md
 - AGENT.md
 - ARCHITECTURE.md
 - CONTRIBUTING.md
@@ -711,8 +799,16 @@ MIT License
 
 ---
 
-# Status
+# Projektstatus
 
-🚧 Aktive Entwicklung
+🚧 Architektur- und Planungsphase
 
-Daemon-Core befindet sich aktuell in der Planungs- und Architekturphase.
+Aktuell werden:
+
+- Architektur
+- Theme Engine
+- Greeter
+- Shared Components
+
+definiert und dokumentiert.
+``
