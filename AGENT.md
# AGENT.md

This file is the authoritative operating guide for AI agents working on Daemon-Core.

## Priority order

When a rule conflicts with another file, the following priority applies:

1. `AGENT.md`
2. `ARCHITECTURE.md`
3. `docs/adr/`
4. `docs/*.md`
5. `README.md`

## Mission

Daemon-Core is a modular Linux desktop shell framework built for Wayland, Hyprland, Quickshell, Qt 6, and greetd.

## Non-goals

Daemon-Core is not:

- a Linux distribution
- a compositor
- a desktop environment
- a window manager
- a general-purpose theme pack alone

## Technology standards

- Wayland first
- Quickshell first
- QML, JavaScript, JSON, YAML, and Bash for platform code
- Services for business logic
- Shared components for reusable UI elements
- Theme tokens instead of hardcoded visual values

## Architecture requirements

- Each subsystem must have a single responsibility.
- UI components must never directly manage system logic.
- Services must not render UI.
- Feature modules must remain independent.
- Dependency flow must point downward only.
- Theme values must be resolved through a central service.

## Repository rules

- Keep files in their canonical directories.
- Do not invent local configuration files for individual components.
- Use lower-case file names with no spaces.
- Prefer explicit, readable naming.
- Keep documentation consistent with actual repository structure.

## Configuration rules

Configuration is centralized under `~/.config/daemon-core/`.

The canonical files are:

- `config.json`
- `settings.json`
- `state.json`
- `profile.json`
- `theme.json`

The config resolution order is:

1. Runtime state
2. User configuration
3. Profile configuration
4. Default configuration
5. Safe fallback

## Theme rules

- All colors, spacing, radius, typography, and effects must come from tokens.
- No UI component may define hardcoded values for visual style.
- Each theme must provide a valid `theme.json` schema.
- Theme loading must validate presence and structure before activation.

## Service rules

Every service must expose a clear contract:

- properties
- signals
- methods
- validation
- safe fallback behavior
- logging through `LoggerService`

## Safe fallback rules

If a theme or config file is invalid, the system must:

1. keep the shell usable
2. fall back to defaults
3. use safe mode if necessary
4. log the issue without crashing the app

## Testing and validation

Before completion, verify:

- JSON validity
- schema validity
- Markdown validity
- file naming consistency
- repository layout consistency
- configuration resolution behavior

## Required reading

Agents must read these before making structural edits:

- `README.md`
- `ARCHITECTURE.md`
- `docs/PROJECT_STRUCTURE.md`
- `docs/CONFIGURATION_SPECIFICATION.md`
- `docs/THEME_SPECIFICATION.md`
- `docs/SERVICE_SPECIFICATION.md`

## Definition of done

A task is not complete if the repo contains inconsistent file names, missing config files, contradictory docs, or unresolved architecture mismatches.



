@@ -1,0 +1,112 @@
+# Daemon-Core
+
+Daemon-Core is a modular Linux desktop shell framework built around Wayland, Hyprland, Quickshell, Qt 6, and greetd. It is designed as a unified shell platform for login, lockscreen, bar, dashboard, notifications, control center, and theming.
+
+## Goals
+
+- Unified desktop shell experience
+- Theme-driven design
+- Service-based architecture
+- Modular feature development
+- Clear configuration and state management
+- Safe fallback behavior
+
+## Project status
+
+This repository is currently in the architecture and planning phase, with the foundation for modules, themes, and services being defined and stabilized.
+
+## Architecture summary
+
+```text
+System / Wayland / Hyprland
+        ↓
+IPC adapters
+        ↓
+Services
+        ↓
+Shared components
+        ↓
+Feature modules
+        ↓
+User interface
+```
+
+## Repository structure
+
+```text
+daemon-core/
+├── .github/
+├── assets/
+├── config/
+├── docs/
+├── ipc/
+├── services/
+├── themes/
+├── daemon-shared/
+├── daemon-theme/
+├── daemon-greeter/
+├── daemon-lockscreen/
+├── daemon-bar/
+├── daemon-dashboard/
+├── daemon-notifications/
+├── daemon-controlcenter/
+├── daemon-wallpaper/
+├── README.md
+├── AGENT.md
+├── ARCHITECTURE.md
+├── CHANGELOG.md
+├── LICENSE
+└── .markdownlint.json
+```
+
+## Core concepts
+
+### Services
+
+Business logic belongs in services. UI components must not contain system calls or configuration logic.
+
+### Theme system
+
+All visual values must come from the active theme via tokens and a ThemeService.
+
+### Configuration
+
+Configuration is centralized under `~/.config/daemon-core/` and resolved in a strict priority order.
+
+### Safety
+
+If configuration, theme, or service data is invalid, the system must fall back to defaults or safe mode instead of crashing.
+
+## Default configuration resolution
+
+```text
+Runtime state
+    ↓
+User config
+    ↓
+Profile config
+    ↓
+Default config
+    ↓
+Safe fallback
+```
+
+## Quick start
+
+```bash
+git clone https://github.com/PascalLehmann/daemon-core.git
+cd daemon-core
+```
+
+## Development rules
+
+Before making changes, read:
+
+- `AGENT.md`
+- `ARCHITECTURE.md`
+- `docs/PROJECT_STRUCTURE.md`
+- `docs/CONFIGURATION_SPECIFICATION.md`
+
+## License
+
+MIT License.

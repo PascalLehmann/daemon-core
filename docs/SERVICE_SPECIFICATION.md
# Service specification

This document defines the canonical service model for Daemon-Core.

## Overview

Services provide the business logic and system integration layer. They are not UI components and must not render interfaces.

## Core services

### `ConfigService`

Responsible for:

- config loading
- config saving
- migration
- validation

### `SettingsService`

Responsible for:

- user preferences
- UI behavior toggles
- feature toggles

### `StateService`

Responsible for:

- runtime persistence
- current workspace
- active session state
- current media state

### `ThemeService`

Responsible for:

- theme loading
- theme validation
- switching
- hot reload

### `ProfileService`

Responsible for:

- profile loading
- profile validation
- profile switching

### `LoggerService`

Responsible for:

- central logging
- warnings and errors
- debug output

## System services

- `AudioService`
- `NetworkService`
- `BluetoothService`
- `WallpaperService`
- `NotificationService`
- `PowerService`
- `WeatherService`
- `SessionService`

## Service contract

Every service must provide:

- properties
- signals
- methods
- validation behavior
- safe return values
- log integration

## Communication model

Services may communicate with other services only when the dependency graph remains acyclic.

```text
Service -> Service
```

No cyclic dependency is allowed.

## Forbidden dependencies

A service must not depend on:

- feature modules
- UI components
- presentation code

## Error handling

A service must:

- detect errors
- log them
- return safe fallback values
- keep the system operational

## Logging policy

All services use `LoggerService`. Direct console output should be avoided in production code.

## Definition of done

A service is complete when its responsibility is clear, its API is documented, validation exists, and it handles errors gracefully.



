@@ -1,0 +1,154 @@
+# Theme specification
+
+This document defines the required shape of all Daemon-Core themes.
+
+## Purpose
+
+Themes must provide a consistent visual contract across the desktop shell.
+
+## Theme structure
+
+```text
+themes/
+├── daemon-dark/
+│   ├── theme.json
+│   ├── wallpapers/
+│   ├── icons/
+│   ├── fonts/
+│   └── sounds/
+├── daemon-light/
+└── ...
+```
+
+## Required theme file
+
+Each valid theme must provide:
+
+```text
+theme.json
+```
+
+## Manifest example
+
+```json
+{
+  "name": "Daemon Dark",
+  "id": "daemon-dark",
+  "version": "1.0.0",
+  "author": "Daemon-Core Team",
+  "description": "Default dark theme",
+  "colors": {},
+  "spacing": {},
+  "radius": {},
+  "typography": {},
+  "animations": {},
+  "effects": {},
+  "icons": {},
+  "wallpaper": {}
+}
+```
+
+## Required fields
+
+A theme manifest must contain at least:
+
+- `name`
+- `id`
+- `version`
+- `colors`
+- `spacing`
+- `radius`
+- `typography`
+- `animations`
+- `effects`
+- `icons`
+- `wallpaper`
+
+## Token categories
+
+### Colors
+
+```json
+{
+  "primary": "#7c3aed",
+  "secondary": "#9333ea",
+  "background": "#0f172a",
+  "surface": "#1e293b",
+  "surfaceAlt": "#334155",
+  "text": "#ffffff",
+  "textSecondary": "#cbd5e1",
+  "success": "#22c55e",
+  "warning": "#f59e0b",
+  "error": "#ef4444",
+  "border": "#475569"
+}
+```
+
+### Spacing
+
+```json
+{
+  "xs": 4,
+  "sm": 8,
+  "md": 16,
+  "lg": 24,
+  "xl": 32,
+  "xxl": 48
+}
+```
+
+### Radius
+
+```json
+{
+  "xs": 4,
+  "sm": 8,
+  "md": 12,
+  "lg": 20,
+  "xl": 32
+}
+```
+
+### Typography
+
+```json
+{
+  "family": "Inter",
+  "sizes": {
+    "caption": 12,
+    "body": 14,
+    "subtitle": 18,
+    "title": 24,
+    "heading": 32,
+    "display": 48
+  }
+}
+```
+
+## Theme loading rules
+
+The active theme must be validated before activation. Validation must check:
+
+- valid JSON
+- required fields
+- valid file references
+- version presence
+- compatibility with the renderer
+
+## Theme fallback rules
+
+If a selected theme fails validation, the system must fall back to:
+
+1. the previous valid theme
+2. the default theme
+3. internal fallback values
+
+## Design rules
+
+- No component may define fixed colors.
+- No component may contain hardcoded spacing values.
+- No component may define font size directly.
+- Theme values must be accessed through `ThemeService`.
+
+
+

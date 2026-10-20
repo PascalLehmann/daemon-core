@@ -1,0 +1,20 @@
+# daemon-shared
+
+Shared UI elements live here.
+
+## Allowed content
+
+- reusable widgets
+- shared primitives
+- generic UI components
+- design-system helpers
+
+## Prohibited content
+
+- business logic
+- IPC code
+- service logic
+- direct system calls
+
+
+

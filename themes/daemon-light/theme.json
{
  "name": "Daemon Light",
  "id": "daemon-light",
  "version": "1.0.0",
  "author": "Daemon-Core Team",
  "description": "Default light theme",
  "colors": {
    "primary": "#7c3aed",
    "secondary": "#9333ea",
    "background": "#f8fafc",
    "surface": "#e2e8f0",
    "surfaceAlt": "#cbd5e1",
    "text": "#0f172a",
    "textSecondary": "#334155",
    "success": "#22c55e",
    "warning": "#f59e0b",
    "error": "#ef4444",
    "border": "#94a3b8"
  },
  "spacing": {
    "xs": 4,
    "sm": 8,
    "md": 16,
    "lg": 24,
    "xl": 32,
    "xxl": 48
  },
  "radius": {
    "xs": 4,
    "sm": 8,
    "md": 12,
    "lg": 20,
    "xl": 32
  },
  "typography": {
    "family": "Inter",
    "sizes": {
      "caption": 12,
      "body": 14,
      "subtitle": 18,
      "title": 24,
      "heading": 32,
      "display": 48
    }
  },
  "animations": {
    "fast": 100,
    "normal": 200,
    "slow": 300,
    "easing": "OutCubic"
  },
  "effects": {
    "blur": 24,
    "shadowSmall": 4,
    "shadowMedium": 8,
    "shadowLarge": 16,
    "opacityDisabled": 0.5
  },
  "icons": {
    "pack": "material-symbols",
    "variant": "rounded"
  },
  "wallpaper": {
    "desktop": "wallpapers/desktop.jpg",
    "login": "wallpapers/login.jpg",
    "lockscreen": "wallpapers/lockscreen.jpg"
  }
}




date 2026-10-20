@@ -1,0 +1,72 @@
+themes/daemon-dark/theme.json
+{
+  "name": "Daemon Dark",
+  "id": "daemon-dark",
+  "version": "1.0.0",
+  "author": "Daemon-Core Team",
+  "description": "Default dark theme",
+  "colors": {
+    "primary": "#7c3aed",
+    "secondary": "#9333ea",
+    "background": "#0f172a",
+    "surface": "#1e293b",
+    "surfaceAlt": "#334155",
+    "text": "#f8fafc",
+    "textSecondary": "#cbd5e1",
+    "success": "#22c55e",
+    "warning": "#f59e0b",
+    "error": "#ef4444",
+    "border": "#475569"
+  },
+  "spacing": {
+    "xs": 4,
+    "sm": 8,
+    "md": 16,
+    "lg": 24,
+    "xl": 32,
+    "xxl": 48
+  },
+  "radius": {
+    "xs": 4,
+    "sm": 8,
+    "md": 12,
+    "lg": 20,
+    "xl": 32
+  },
+  "typography": {
+    "family": "Inter",
+    "sizes": {
+      "caption": 12,
+      "body": 14,
+      "subtitle": 18,
+      "title": 24,
+      "heading": 32,
+      "display": 48
+    }
+  },
+  "animations": {
+    "fast": 100,
+    "normal": 200,
+    "slow": 300,
+    "easing": "OutCubic"
+  },
+  "effects": {
+    "blur": 24,
+    "shadowSmall": 4,
+    "shadowMedium": 8,
+    "shadowLarge": 16,
+    "opacityDisabled": 0.5
+  },
+  "icons": {
+    "pack": "material-symbols",
+    "variant": "rounded"
+  },
+  "wallpaper": {
+    "desktop": "wallpapers/desktop.jpg",
+    "login": "wallpapers/login.jpg",
+    "lockscreen": "wallpapers/lockscreen.jpg"
+  }
+}
+
+
+

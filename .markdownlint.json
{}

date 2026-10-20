@@ -1,0 +1,218 @@
+# Daemon-Core architecture
+
+This document defines the canonical architecture of the project.
+
+## Scope
+
+Daemon-Core is a modular desktop shell framework for Linux. It provides the shell layer between the OS and the interactive user experience.
+
+## Stack
+
+- Wayland
+- Hyprland
+- greetd
+- Quickshell
+- Qt 6
+- QML
+- JSON configuration
+
+## Core principles
+
+### Separation of concerns
+
+Each layer has one responsibility.
+
+### Single source of truth
+
+Configuration, theme data, and runtime state must each have exactly one authoritative owner.
+
+### Theme first
+
+Theme values are provided through tokens, not hardcoded in UI components.
+
+### Service-driven architecture
+
+Business logic belongs in services. Components render and respond to state.
+
+### Default-safe behavior
+
+The system must handle invalid or missing state without crashing.
+
+## Layer model
+
+```text
+User interface
+    ↓
+Feature modules
+    ↓
+Shared components
+    ↓
+Services
+    ↓
+IPC adapters
+    ↓
+System integration
+    ↓
+Linux / Wayland
+```
+
+## Canonical repository layout
+
+```text
+daemon-core/
+├── .github/
+├── assets/
+├── config/
+├── docs/
+├── ipc/
+├── services/
+├── themes/
+├── daemon-shared/
+├── daemon-theme/
+├── daemon-greeter/
+├── daemon-lockscreen/
+├── daemon-bar/
+├── daemon-dashboard/
+├── daemon-notifications/
+├── daemon-controlcenter/
+├── daemon-wallpaper/
+├── README.md
+├── AGENT.md
+├── ARCHITECTURE.md
+├── CHANGELOG.md
+├── LICENSE
+└── .markdownlint.json
+```
+
+## Dependency direction
+
+Dependencies must only move downward.
+
+```text
+UI -> Features -> Shared -> Services -> IPC -> System
+```
+
+The reverse direction is forbidden.
+
+## Required responsibility split
+
+### Services
+
+- configuration management
+- profile management
+- theme management
+- state management
+- notification logic
+- power and session logic
+- system integration wrappers
+
+### Shared components
+
+- buttons
+- cards
+- dialogs
+- forms
+- small reusable UI primitives
+
+### Feature modules
+
+- greeter
+- lockscreen
+- bar
+- dashboard
+- notifications
+- control center
+- wallpaper
+
+### IPC adapters
+
+- Hyprland IPC
+- DBus IPC
+- PipeWire IPC
+- NetworkManager IPC
+- BlueZ IPC
+
+## Configuration architecture
+
+Configuration files are centralized under:
+
+```text
+~/.config/daemon-core/
+```
+
+Canonical files:
+
+```text
+config.json
+settings.json
+state.json
+profile.json
+theme.json
+```
+
+## Configuration resolution order
+
+```text
+runtime state
+    ↓
+user settings
+    ↓
+profile settings
+    ↓
+default settings
+    ↓
+safe fallback
+```
+
+## Theme architecture
+
+Each theme lives under:
+
+```text
+themes/<theme-id>/
+```
+
+Example:
+
+```text
+themes/
+├── daemon-dark/
+├── daemon-light/
+└── nord/
+```
+
+The active theme must be resolved through `ThemeService`.
+
+## Service contract
+
+Every service must provide:
+
+- properties
+- signals
+- methods
+- validation
+- error logging
+- graceful fallback behavior
+
+## Safe mode
+
+Safe mode must always remain operational. It must use:
+
+- default theme
+- default profile
+- minimal enabled services
+- enhanced logging
+
+## Security principles
+
+- never store secrets in theme or UI files
+- never bypass PAM or greetd for login
+- validate external data
+- use least privilege
+
+## Implementation note
+
+This repository currently defines the architecture and specification layer before full runtime implementation. The project is intentionally structured to keep the foundation consistent before adding feature-heavy code.
+
+
+

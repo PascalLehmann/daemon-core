@@ -1,0 +1,110 @@
+# Project structure
+
+This document defines the canonical repository layout and the responsibilities of each top-level area.
+
+## Root layout
+
+```text
+daemon-core/
+├── .github/
+├── assets/
+├── config/
+├── docs/
+├── ipc/
+├── services/
+├── themes/
+├── daemon-shared/
+├── daemon-theme/
+├── daemon-greeter/
+├── daemon-lockscreen/
+├── daemon-bar/
+├── daemon-dashboard/
+├── daemon-notifications/
+├── daemon-controlcenter/
+├── daemon-wallpaper/
+├── README.md
+├── AGENT.md
+├── ARCHITECTURE.md
+├── CHANGELOG.md
+├── LICENSE
+└── .markdownlint.json
+```
+
+## Directory responsibilities
+
+### `assets/`
+
+Shared, non-business assets such as fonts, icons, wallpaper samples, and sound resources.
+
+### `config/`
+
+Configuration defaults and schema validation.
+
+### `docs/`
+
+Project documentation and specifications.
+
+### `ipc/`
+
+Adapters for external protocols and system interfaces.
+
+### `services/`
+
+Business logic and system integration services.
+
+### `themes/`
+
+Installed and shipped themes, each with a theme manifest and asset directories.
+
+### `daemon-shared/`
+
+Reusable UI primitives for all modules.
+
+### `daemon-theme/`
+
+Theme engine and validation logic.
+
+### `daemon-greeter/`
+
+Login and authentication UI.
+
+### `daemon-lockscreen/`
+
+Lockscreen UI.
+
+### `daemon-bar/`
+
+Top status bar.
+
+### `daemon-dashboard/`
+
+Launcher and dashboard surfaces.
+
+### `daemon-notifications/`
+
+Notification center and popup logic.
+
+### `daemon-controlcenter/`
+
+Quick settings surface.
+
+### `daemon-wallpaper/`
+
+Wallpaper management and rendering.
+
+## Rules
+
+- One responsibility per directory.
+- Feature modules must remain independent.
+- No component may create a custom config directory.
+- No service may render UI directly.
+
+## Canonical file naming
+
+- lowercase names
+- no spaces
+- no accidental suffixes in schema files
+- stable, descriptive names
+
+
+

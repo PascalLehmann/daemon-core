@@ -1,0 +1,18 @@
+daemon-wallpaper/README.md
+# daemon-wallpaper
+
+This module contains wallpaper management and rendering support.
+
+## Responsibilities
+
+- wallpaper selection
+- wallpaper preload
+- wallpaper change events
+- theme-specific wallpaper handling
+
+## Rules
+
+- Keep wallpaper functionality behind the service layer when practical.
+
+
+

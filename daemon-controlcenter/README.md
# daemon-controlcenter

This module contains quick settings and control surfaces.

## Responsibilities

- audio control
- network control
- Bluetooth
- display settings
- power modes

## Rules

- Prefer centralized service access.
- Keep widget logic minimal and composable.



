@@ -1,0 +1,19 @@
+daemon-notifications/README.md
+# daemon-notifications
+
+This module contains the notification center and popup behavior.
+
+## Responsibilities
+
+- notification display
+- notification history
+- grouping
+- prioritization
+
+## Rules
+
+- Keep transport logic in the service layer.
+- UI should only render and react to state.
+
+
+

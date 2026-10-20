@@ -1,0 +1,37 @@
+# IPC specification
+
+This document defines the expected communication boundaries between Daemon-Core and external systems.
+
+## Purpose
+
+IPC adapters isolate protocol-specific logic and keep services framework-neutral.
+
+## Supported adapters
+
+- Hyprland IPC
+- DBus IPC
+- PipeWire IPC
+- NetworkManager IPC
+- BlueZ IPC
+
+## Allowed responsibilities
+
+- workspace queries
+- audio state
+- network state
+- Bluetooth discovery
+- power state
+- notification transport
+
+## Forbidden responsibilities
+
+- UI rendering
+- business logic execution in adapters
+- direct storage of app state
+
+## Rule
+
+IPC adapters are transport layers only. Business logic belongs to services.
+
+
+

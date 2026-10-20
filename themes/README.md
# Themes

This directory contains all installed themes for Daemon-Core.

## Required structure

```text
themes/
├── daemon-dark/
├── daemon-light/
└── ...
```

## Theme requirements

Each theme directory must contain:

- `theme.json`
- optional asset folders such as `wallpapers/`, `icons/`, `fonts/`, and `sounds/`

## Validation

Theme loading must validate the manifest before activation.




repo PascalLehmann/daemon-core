@@ -1,0 +1,21 @@
+ipc/README.md
+# IPC
+
+This directory contains IPC adapters and protocol-specific bridges.
+
+## Responsibilities
+
+- Hyprland integration
+- DBus access
+- PipeWire control
+- Bluetooth information
+- network state access
+
+## Rules
+
+- The IPC layer stays behind the service layer.
+- Adapters must not render UI.
+- Adapters must not own persistent app state.
+
+
+
