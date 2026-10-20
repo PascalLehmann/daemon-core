@@ -4,82 +4,177 @@ Version: 1.0
 
 Status: Active
 
+Last Updated: 2026-10-20
+
 ---
 
 # Purpose
 
-Definiert Logging innerhalb von Daemon-Core.
+Dieses Dokument definiert das Logging-System von Daemon-Core.
+
+---
+
+# Goals
+
+- Nachvollziehbarkeit
+- Fehleranalyse
+- Debugging
+- Unterstützung für CI und Entwicklung
 
 ---
 
 # LoggerService
 
-Alle Logs müssen LoggerService verwenden.
+Alle Logs laufen über:
+
+```text
+LoggerService
+```
 
 ---
 
 # Log Levels
 
-DEBUG
+## DEBUG
 
 Entwicklungsinformationen.
 
+Beispiele:
+
+- Theme geladen
+- Signal empfangen
+
 ---
 
-INFO
+## INFO
 
-Normale Informationen.
+Normale Systeminformationen.
+
+Beispiele:
+
+- Profil gewechselt
+- Session gestartet
 
 ---
 
-WARNING
+## WARNING
 
 Unerwartete Zustände.
 
+Beispiele:
+
+- Theme Wert fehlt
+- Wallpaper nicht gefunden
+
 ---
 
-ERROR
+## ERROR
 
-Fehler.
+Fehlerhafte Zustände.
+
+Beispiele:
+
+- Datei kann nicht geladen werden
+- Service startet nicht
 
 ---
 
-CRITICAL
+## CRITICAL
 
 Schwerwiegende Fehler.
 
----
+Beispiele:
 
-# Verboten
-
-Passwörter loggen.
-
-Tokens loggen.
-
-API Keys loggen.
-
----
-
-# Log Speicherort
-
-Geplant:
-
-~/.local/share/daemon-core/logs/
+- Konfiguration beschädigt
+- Recovery Mode aktiviert
 
 ---
 
 # Format
 
+Empfohlenes Format:
+
+```text
 2026-10-20T12:00:00Z
 INFO
 ThemeService
-Theme loaded
+Theme loaded successfully
+```
 
 ---
 
-# Rotation
+# Structured Format
 
-Zukünftig:
+Langfristiges Ziel:
 
-- maximale Dateigröße
-- alte Logs archivieren
+```json
+{
+  "timestamp": "2026-10-20T12:00:00Z",
+  "level": "INFO",
+  "service": "ThemeService",
+  "message": "Theme loaded"
+}
+```
+
+---
+
+# Log Storage
+
+Geplanter Speicherort:
+
+```text
+~/.local/share/daemon-core/logs/
+```
+
+---
+
+# Retention Strategy
+
+Geplante Regeln:
+
+- Maximale Dateigröße
+- Rotation
+- Archivierung
+
+---
+
+# Security Rules
+
+Logs dürfen niemals enthalten:
+
+- Passwörter
+- Tokens
+- API Keys
+- Cookies
+- Session Secrets
+
+---
+
+# Recovery Logging
+
+Safe Mode muss immer protokollieren:
+
+- Ursache
+- Zeitpunkt
+- Betroffene Dienste
+
+---
+
+# CI Logging
+
+CI Ausgaben sollen enthalten:
+
+- Teststatus
+- Fehler
+- Validierungsfehler
+
+---
+
+# Definition of Done
+
+Logging gilt als vollständig wenn:
+
+- LoggerService verwendet wird
+- Log-Level korrekt genutzt werden
+- Sicherheitsregeln eingehalten werden
+- Fehler nachvollziehbar sind
