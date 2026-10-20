@@ -1,16 +1,21 @@
-# daemon-theme
+# daemon-shared
 
-This module hosts the theme engine and theme validation logic.
+Shared UI elements live here.
 
-## Responsibilities
+## Allowed content
 
-- theme loading
-- theme validation
-- token resolution
-- hot reload support
+- reusable widgets
+- shared primitives
+- generic UI components
+- shared style and theming primitives
 
-## Rules
+## Prohibited content
 
-- UI components must not define static values.
-- Theme data must be resolved through `ThemeService`.
-- Fallback behavior must always remain safe.
+- business logic
+- IPC code
+- direct system calls
+- service-state ownership
+
+## Shared style contract
+
+Use `Style.qml` or `StylePalette.qml` for consistent colors, spacing, radii, and typography across all modules.
