@@ -51,13 +51,23 @@ jobs:
           test -f AGENT.md
           test -f ARCHITECTURE.md
           test -f CHANGELOG.md
+          test -f LICENSE
+
+      - name: Verify GitHub Configuration
+        run: |
+          test -f .github/CODEOWNERS
+          test -f .github/PULL_REQUEST_TEMPLATE.md
+          test -f .github/workflows/ci.yml
 
       - name: Verify Documentation
         run: |
           test -f docs/ROADMAP.md
+          test -f docs/CONTRIBUTING.md
+          test -f docs/CODING_GUIDELINES.md
           test -f docs/TESTING.md
           test -f docs/SECURITY.md
           test -f docs/INSTALLATION.md
+          test -f docs/RELEASE_PROCESS.md
           test -f docs/THEME_SPECIFICATION.md
           test -f docs/COMPONENT_SPECIFICATION.md
           test -f docs/CONFIGURATION_SPECIFICATION.md
@@ -83,6 +93,20 @@ jobs:
           test -f docs/adr/ADR-009-Update-Strategy.md
           test -f docs/adr/ADR-010-Plugin-System.md
 
+  github-config:
+    name: GitHub Templates
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify Issue Templates
+        run: |
+          test -f .github/ISSUE_TEMPLATE/bug_report.md
+          test -f .github/ISSUE_TEMPLATE/feature_request.md
+          test -f .github/ISSUE_TEMPLATE/architecture_proposal.md
+
   themes:
     name: Theme Validation
 
@@ -104,10 +128,12 @@ jobs:
       - lint
       - structure
       - adr
+      - github-config
       - themes
 
     runs-on: ubuntu-latest
 
     steps:
       - name: Success
-        run: echo "All required checks passed."
+        run: |
+          echo "All required checks passed."
