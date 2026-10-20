@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Daemon-Core Config",
+  "type": "object",
+  "required": [
+    "version",
+    "profile",
+    "theme",
+    "locale"
+  ],
+  "properties": {
+    "version": {
+      "type": "string"
+    },
+    "profile": {
+      "type": "string"
+    },
+    "theme": {
+      "type": "string"
+    },
+    "locale": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}
