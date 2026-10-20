@@ -2,23 +2,55 @@
 
 # Daemon-Core AI Agent Guidelines
 
-## Zweck
+Version: 1.0
 
-Dieses Dokument definiert die verbindlichen Regeln für KI-Agenten, Copilot-Systeme, Claude Code, Cursor, Aider und zukünftige Automatisierungswerkzeuge, die am Daemon-Core Projekt arbeiten.
+Status: Active
 
-Alle Änderungen müssen mit den Zielen, Prinzipien und Architekturentscheidungen dieses Dokuments übereinstimmen.
+Last Updated: 2026-10-20
 
 ---
 
-# Projektübersicht
+# Purpose
 
-## Projektname
+This document defines the mandatory development rules, architectural principles, priorities, and engineering standards for all AI agents working on the Daemon-Core project.
+
+Applicable to:
+
+- Claude Code
+- GitHub Copilot
+- Cursor
+- Aider
+- OpenCode
+- Custom Agents
+- Future AI Development Tools
+
+This document is authoritative.
+
+If conflicts occur between files:
+
+```text
+AGENT.md
+↓
+ARCHITECTURE.md
+↓
+ADR Documents
+↓
+README.md
+```
+
+The higher document takes precedence.
+
+---
+
+# Project Overview
+
+## Project Name
 
 Daemon-Core
 
-## Ziel
+## Mission
 
-Daemon-Core ist ein modernes Linux Desktop Framework auf Basis von:
+Daemon-Core is a modern desktop shell framework built around:
 
 - Hyprland
 - Quickshell
@@ -27,36 +59,51 @@ Daemon-Core ist ein modernes Linux Desktop Framework auf Basis von:
 - QML
 - Wayland
 
-Das Projekt verfolgt das Ziel, eine vollständig integrierte Desktop-Plattform bereitzustellen.
+The goal is to provide a fully integrated desktop experience through a single architecture, design language, and theme system.
 
 ---
 
 # Vision
 
-Anstatt mehrere getrennte Lösungen einzusetzen:
+Most Linux systems are assembled from many independent projects:
 
-- SDDM
-- Hyprlock
-- Waybar
-- Wlogout
-- Rofi
-- Wofi
-- Mako
-- Dunst
+```text
+Login          → SDDM
+Lockscreen     → Hyprlock
+Panel          → Waybar
+Launcher       → Rofi
+Notifications  → Mako
+Power Menu     → Wlogout
+Settings       → Custom Scripts
+```
 
-soll eine einzige gemeinsame Plattform geschaffen werden.
+Every application introduces:
+
+- different configurations
+- different design systems
+- different dependencies
+- different update cycles
+
+Daemon-Core aims to provide:
+
+```text
+One Platform
+One Theme Engine
+One Design Language
+One Architecture
+```
 
 ---
 
-# Langfristige Ziele
+# Long-Term Vision
 
-Daemon-Core soll langfristig folgende Bereiche vollständig übernehmen:
+Daemon-Core should become a unified shell ecosystem including:
 
 ## Authentication
 
 - Login Manager
-- Session Management
-- User Management
+- Session Manager
+- User Selection
 
 ---
 
@@ -64,8 +111,8 @@ Daemon-Core soll langfristig folgende Bereiche vollständig übernehmen:
 
 - Lockscreen
 - PAM Integration
-- Fingerprint Authentication
-- Smart Unlock
+- Session Security
+- Future Authentication Extensions
 
 ---
 
@@ -91,48 +138,62 @@ Daemon-Core soll langfristig folgende Bereiche vollständig übernehmen:
 
 - Plugin API
 - Theme API
-- Component Marketplace
-- Theme Marketplace
+- Component API
 
 ---
 
-# Zielplattform
+# Non Goals
 
-## Betriebssystem
+Daemon-Core is NOT:
 
-Primär:
+- A Linux Distribution
+- A Desktop Environment
+- A Hyprland Fork
+- A Wayland Compositor
+- A Window Manager
+- A Theme Collection
+
+Daemon-Core is a shell framework built on top of existing technologies.
+
+---
+
+# Supported Platforms
+
+## Primary Target
 
 - Arch Linux
 
-Sekundär:
+---
+
+## Secondary Targets
 
 - CachyOS
 - EndeavourOS
 
-Geplant:
+---
+
+## Future Targets
 
 - Fedora
 - NixOS
 
 ---
 
-## Display Server
+# Technology Stack
 
-Ausschließlich:
+## Display Protocol
 
-- Wayland
+- Wayland Only
 
 ---
 
-## Compositor
-
-Primär:
+## Window Management
 
 - Hyprland
 
 ---
 
-## Display Manager
+## Login Management
 
 - greetd
 
@@ -141,26 +202,37 @@ Primär:
 ## UI Framework
 
 - Quickshell
+- QtQuick
 - Qt6
 - QML
 
 ---
 
-# Technische Prinzipien
+## Primary Languages
 
-## Prinzip 1
-
-Wayland First
-
-Keine neuen Features dürfen von X11 abhängig sein.
+- QML
+- JavaScript
+- JSON
+- YAML
+- Bash
 
 ---
 
-## Prinzip 2
+# Engineering Principles
+
+## Principle 1
+
+Wayland First
+
+New features must not depend on X11.
+
+---
+
+## Principle 2
 
 Quickshell First
 
-Alle Oberflächen basieren auf:
+All graphical interfaces must use:
 
 - Quickshell
 - QtQuick
@@ -168,59 +240,58 @@ Alle Oberflächen basieren auf:
 
 ---
 
-## Prinzip 3
+## Principle 3
 
-Modular First
+Modularity First
 
-Jede Komponente muss möglichst unabhängig funktionieren.
+Every subsystem must be independently maintainable.
 
----
+Examples:
 
-## Prinzip 4
+- Greeter
+- Lockscreen
+- Dashboard
+- Notification Center
 
-Theme Driven Design
-
-Farben dürfen niemals fest hinterlegt werden.
-
-Schlecht:
-
-```qml
-color: "#ffffff"
-```
-
-Gut:
-
-```qml
-color: Theme.colors.text
-```
+should remain loosely coupled.
 
 ---
 
-## Prinzip 5
+## Principle 4
 
-Shared Components
+Architecture Over Features
 
-Komponenten werden nur einmal entwickelt.
-
-Beispiele:
-
-- Button
-- Card
-- Dialog
-- Avatar
-- TextField
-
-dürfen nicht mehrfach implementiert werden.
+Good architecture is more important than feature count.
 
 ---
 
-## Prinzip 6
+## Principle 5
 
-Service Separation
+Maintainability Over Cleverness
 
-Business-Logik gehört niemals direkt in UI-Komponenten.
+Prefer simple code over clever code.
 
-Schlecht:
+---
+
+## Principle 6
+
+Reuse Over Duplication
+
+Never duplicate an existing component.
+
+Search before creating.
+
+---
+
+## Principle 7
+
+Services Over Scripts
+
+Business logic belongs in services.
+
+Never implement system logic directly in UI components.
+
+Bad:
 
 ```qml
 Button {
@@ -228,7 +299,7 @@ Button {
 }
 ```
 
-Gut:
+Good:
 
 ```qml
 Button {
@@ -238,46 +309,46 @@ Button {
 
 ---
 
-# Prioritätenmodell
+# Priority Model
 
-Jede Aufgabe wird nach folgender Priorität bewertet.
-
----
-
-## P0 Kritisch
-
-Sofort bearbeiten.
-
-Beispiele:
-
-- Abstürze
-- Login Fehler
-- Session Fehler
-- PAM Fehler
-- Datenverlust
-- Sicherheitsprobleme
-
-Neue Features sind solange verboten.
+Tasks must always be evaluated in this order.
 
 ---
 
-## P1 Architektur
+## P0 Critical
 
-Höchste Entwicklungspriorität.
+Must be resolved immediately.
 
-Beispiele:
+Examples:
+
+- Crashes
+- Security issues
+- Authentication failures
+- Data loss
+- Session failures
+- PAM failures
+
+No feature work may be done while unresolved P0 issues exist.
+
+---
+
+## P1 Architecture
+
+Highest development priority.
+
+Examples:
 
 - Theme Engine
-- Config Layer
+- Services
+- Configuration Layer
 - State Management
 - Shared Components
-- Service Layer
 
 ---
 
-## P2 Kernfunktionen
+## P2 Core Features
 
-Beispiele:
+Examples:
 
 - Greeter
 - Lockscreen
@@ -287,42 +358,46 @@ Beispiele:
 
 ---
 
-## P3 Komfortfunktionen
+## P3 User Experience
 
-Beispiele:
+Examples:
 
-- Animationen
-- Zusätzliche Widgets
-- Zusätzliche Themes
-
----
-
-## P4 Kosmetik
-
-Beispiele:
-
-- Farbänderungen
-- Mikroanimationen
-- Optische Anpassungen
+- Setup Wizard
+- Profiles
+- Recovery Features
+- Import/Export
 
 ---
 
-# Entscheidungsregeln
+## P4 Cosmetics
 
-Wenn mehrere Lösungen möglich sind:
+Examples:
 
-1. Wartbarkeit
-2. Erweiterbarkeit
-3. Lesbarkeit
-4. Testbarkeit
-5. Performance
-6. Optik
-
-immer in dieser Reihenfolge bewerten.
+- Animations
+- Additional Theme Variants
+- Micro-interactions
 
 ---
 
-# Projektstruktur
+# Decision Hierarchy
+
+When multiple solutions exist:
+
+```text
+1. Maintainability
+2. Extensibility
+3. Readability
+4. Testability
+5. Reliability
+6. Performance
+7. Appearance
+```
+
+Always evaluate in that order.
+
+---
+
+# Repository Structure
 
 ```text
 daemon-core/
@@ -354,64 +429,76 @@ daemon-core/
 
 ---
 
-# Verzeichnisregeln
+# Folder Rules
 
 ## daemon-shared
 
-Enthält ausschließlich wiederverwendbare Komponenten.
+Reusable UI components only.
 
-Erlaubt:
+Examples:
 
 ```text
 Button.qml
 Card.qml
 Avatar.qml
-TextField.qml
 Dialog.qml
+TextField.qml
 ```
+
+No business logic.
 
 ---
 
 ## services
 
-Enthält ausschließlich Logik.
+Contains system integration and business logic.
 
-Beispiele:
+Examples:
 
 ```text
 AudioService.qml
+BluetoothService.qml
+ConfigService.qml
+LoggerService.qml
 NetworkService.qml
-ThemeService.qml
+NotificationService.qml
 PowerService.qml
+SessionService.qml
+SettingsService.qml
+StorageService.qml
+ThemeService.qml
+UpdateService.qml
+WallpaperService.qml
+WeatherService.qml
 ```
 
 ---
 
 ## themes
 
-Enthält ausschließlich Themes.
+Theme resources only.
 
-Keine Logik.
+No business logic.
 
-Keine Services.
+No services.
 
-Keine Widgets.
+No executable scripts.
 
 ---
 
 ## docs
 
-Dokumentation.
-
-Keine Produktivlogik.
+Documentation only.
 
 ---
 
-# Design System
+# Design System Rules
 
-## Verpflichtende Design Tokens
+## Required Design Tokens
 
-Alle visuellen Komponenten müssen folgende Tokens verwenden:
+Every visual property must be provided through design tokens.
+
+Supported categories:
 
 ```text
 Colors
@@ -419,29 +506,35 @@ Spacing
 Radius
 Typography
 Icons
-Blur
 Animations
+Effects
+Blur
+Shadows
 ```
 
 ---
 
-## Verboten
+## Forbidden
 
 ```qml
-radius: 17
+color: "#ffffff"
 ```
 
 ```qml
-font.pixelSize: 31
+radius: 13
 ```
 
 ```qml
-color: "#123456"
+font.pixelSize: 29
 ```
 
 ---
 
-## Erlaubt
+## Allowed
+
+```qml
+color: Theme.colors.text
+```
 
 ```qml
 radius: Theme.radius.md
@@ -451,21 +544,17 @@ radius: Theme.radius.md
 font.pixelSize: Theme.typography.body
 ```
 
-```qml
-color: Theme.colors.surface
-```
-
 ---
 
-# Theme Engine Vorgaben
+# Theme Engine Requirements
 
-Jedes Theme besitzt:
+Every theme must provide:
 
 ```text
 theme.json
 ```
 
-Beispiel:
+Minimum structure:
 
 ```json
 {
@@ -476,7 +565,8 @@ Beispiel:
   "spacing": {},
   "radius": {},
   "typography": {},
-
+  "animations": {},
+  "effects": {},
   "wallpaper": {},
   "icons": {}
 }
@@ -484,17 +574,156 @@ Beispiel:
 
 ---
 
-# Testregeln
+# State Management
 
-Keine Änderung gilt als abgeschlossen ohne Tests.
+## Persistent State
+
+Managed by:
+
+```text
+ConfigService
+```
+
+Examples:
+
+- Theme
+- User Preferences
+- Layout Settings
+
+---
+
+## Runtime State
+
+Managed by:
+
+```text
+StateService
+```
+
+Examples:
+
+- Current Workspace
+- Current Window
+- Active Media Session
+
+---
+
+## Rule
+
+UI components must never directly persist state.
+
+All persistence goes through services.
+
+---
+
+# Configuration Rules
+
+All user-modifiable settings must be centralized.
+
+No component may create its own configuration file.
+
+Centralized through:
+
+```text
+ConfigService
+```
+
+---
+
+# Recovery System
+
+Daemon-Core must never become unusable because of:
+
+- Invalid Themes
+- Corrupt Configuration
+- Missing Assets
+
+Fallback strategy:
+
+```text
+Attempt 1
+↓
+User Configuration
+
+Attempt 2
+↓
+Default Theme
+
+Attempt 3
+↓
+Safe Mode
+```
+
+Safe Mode must always remain operational.
+
+---
+
+# Dependency Policy
+
+Before introducing a new dependency, verify:
+
+- License Compatibility
+- Active Maintenance
+- Security History
+- Long-Term Necessity
+
+A new dependency should be the last option.
+
+Major dependencies require an ADR.
+
+---
+
+# ADR Requirements
+
+An ADR is required for:
+
+- New Services
+- New System Layers
+- Plugin Architecture Changes
+- Theme Architecture Changes
+- Session Flow Changes
+- Authentication Changes
+- Major Dependencies
+
+No exception.
+
+---
+
+# Versioning Strategy
+
+Daemon-Core follows Semantic Versioning.
+
+```text
+MAJOR.MINOR.PATCH
+```
+
+Example:
+
+```text
+1.2.3
+```
+
+Where:
+
+```text
+1 = Breaking Changes
+2 = New Features
+3 = Bug Fixes
+```
+
+---
+
+# Testing Rules
+
+No work is considered complete without validation.
 
 ---
 
 ## Test Level 1
 
-Syntax
+Syntax Validation
 
-Prüfen:
+Required:
 
 - QML
 - JSON
@@ -505,27 +734,27 @@ Prüfen:
 
 ## Test Level 2
 
-Komponenten
+Component Testing
 
-Neue Komponenten müssen isoliert getestet werden.
+Every component must work in isolation.
 
-Beispiel:
+Examples:
 
 ```text
 Button.qml
+Card.qml
+Avatar.qml
 ```
-
-muss einzeln funktionieren.
 
 ---
 
 ## Test Level 3
 
-Integration
+Integration Testing
 
-Prüfen:
+Validate:
 
-- Theme Integration
+- Themes
 - Services
 - Shared Components
 
@@ -533,111 +762,143 @@ Prüfen:
 
 ## Test Level 4
 
-System
+System Testing
 
-Prüfen:
+Validate:
 
 - greetd
-- Login
-- Session Start
-- Hyprland
+- Authentication
+- Session Launch
+- Hyprland Startup
 
 ---
 
-# Pflichttests
-
-Vor jedem Commit:
-
-- Keine Syntaxfehler
-- Keine fehlenden Imports
-- Keine toten Komponenten
-- Keine Duplikate
-
----
-
-# Login Testmatrix
-
-## Muss funktionieren
-
-- Gültiger Benutzer
-- Ungültiges Passwort
-- Benutzerwechsel
-- Sessionwechsel
-- Logout/Login
-- Neustart
-
----
-
-# Theme Testmatrix
-
-## Muss funktionieren
-
-- Dark Theme
-- Light Theme
-- Single Monitor
-- Dual Monitor
-- UltraWide
-- HiDPI
-
----
-
-# Performance Ziele
-
-## Greeter
-
-```text
-< 500 ms
-```
-
----
+# Required Test Matrix
 
 ## Login
 
-```text
-< 2 Sekunden
+Must validate:
+
+- Valid User
+- Invalid Password
+- Session Change
+- Logout
+- Reboot
+- Cold Boot
+
+---
+
+## Themes
+
+Must validate:
+
+- Dark Themes
+- Light Themes
+- Multi Monitor
+- HiDPI
+- Ultrawide
+
+---
+
+## Display Layouts
+
+Must validate:
+
+- Single Monitor
+- Dual Monitor
+- Triple Monitor
+- Mixed Resolution
+- HiDPI Scaled
+
+---
+
+# CI Rules
+
+No merge without passing CI.
+
+All Pull Requests must pass:
+
+- Syntax Validation
+- Documentation Validation
+- Theme Validation
+- Repository Structure Validation
+
+---
+
+# Performance Goals
+
+Performance must be continuously measured.
+
+Avoid hardcoded performance guarantees.
+
+General targets:
+
+- Fast startup
+- Responsive UI
+- Efficient memory usage
+- Minimal unnecessary background activity
+
+---
+
+# Setup Wizard Strategy
+
+Inspired by successful Linux onboarding workflows.
+
+Future installer goals:
+
+- Profile Selection
+- Theme Selection
+- Wallpaper Selection
+- greetd Setup
+- Hyprland Integration
+
+---
+
+# Preset Strategy
+
+The platform should support full desktop presets.
+
+Examples:
+
+- Minimal
+- Laptop
+- Desktop
+- Gaming
+- Creator
+- Developer
+
+Presets must be reversible.
+
+---
+
+# Backup & Restore Strategy
+
+Future functionality:
+
+```bash
+daemon backup create
+daemon backup restore
 ```
 
----
-
-## Bar
-
-```text
-< 100 MB RAM
-```
+The user must always be able to restore a working state.
 
 ---
 
-# CI/CD Regeln
-
-Kein Merge ohne erfolgreiche CI.
-
----
-
-# Release Kriterien
-
-Vor jedem Release:
-
-- CI erfolgreich
-- Dokumentation aktuell
-- Keine bekannten kritischen Bugs
-- Architektur konsistent
-
----
-
-# Aktuelle Roadmap
+# Active Milestones
 
 ## M1 Foundation
 
 Status:
 
-In Arbeit
+In Progress
 
 Tasks:
 
-- Repository Struktur
+- Repository Structure
 - Theme Engine
 - Shared Components
 - Service Layer
+- State Management
 
 ---
 
@@ -646,30 +907,29 @@ Tasks:
 Tasks:
 
 - greetd Integration
-- Login Fenster
-- Benutzerliste
-- Passwortfeld
-- Session Auswahl
+- User Selection
+- Password Input
+- Session Selection
 
 Definition of Done:
 
-Benutzer kann Hyprland starten.
+User can successfully launch Hyprland.
 
 ---
 
-## M3 Theme Engine
+## M3 Theme System
 
 Tasks:
 
-- Farben
-- Typography
-- Radius
-- Blur
-- Wallpaper
+- Color Tokens
+- Typography Tokens
+- Radius Tokens
+- Spacing Tokens
+- Wallpaper Support
 
 Definition of Done:
 
-Themewechsel ohne Komponentenänderung.
+Theme switching works without component rewrites.
 
 ---
 
@@ -677,9 +937,9 @@ Themewechsel ohne Komponentenänderung.
 
 Tasks:
 
-- PAM
+- PAM Integration
+- Clock
 - Wallpaper Blur
-- Uhr
 - Notifications
 
 ---
@@ -689,9 +949,9 @@ Tasks:
 Tasks:
 
 - Workspaces
-- Netzwerk
 - Audio
-- Batterie
+- Battery
+- Network
 - Bluetooth
 
 ---
@@ -700,19 +960,20 @@ Tasks:
 
 Tasks:
 
-- Suche
+- Search
 - Launcher
+- Quick Actions
 - Widgets
 
 ---
 
-## M7 Notifications
+## M7 Notification Center
 
 Tasks:
 
-- Verlauf
-- Aktionen
-- Gruppierung
+- History
+- Actions
+- Grouping
 
 ---
 
@@ -720,25 +981,28 @@ Tasks:
 
 Tasks:
 
-- Netzwerk
-- Bluetooth
 - Audio
+- Network
+- Bluetooth
 - Display
-- Energie
+- Power
 
 ---
 
-# Referenzprojekte
+# Reference Projects
 
-Diese Projekte dürfen analysiert werden.
+These repositories may be studied for:
 
-Architektur und Ideen dürfen übernommen werden.
+- Architecture
+- Design Systems
+- User Experience
+- Component Structure
 
-Code und Assets dürfen nicht kopiert werden.
+Code and assets must not be copied.
 
 ---
 
-## Kerntechnologien
+## Core Technology
 
 - HyprWM / Hyprland
 - kennylevinsen / greetd
@@ -746,7 +1010,7 @@ Code und Assets dürfen nicht kopiert werden.
 
 ---
 
-## Login
+## Login & Authentication
 
 - taleroangel / greetd-qsgreeter
 - Darkkal44 / qylock
@@ -754,11 +1018,9 @@ Code und Assets dürfen nicht kopiert werden.
 
 ---
 
-## Desktop Shells
+## Shell Architecture
 
 - caelestia-dots / shell
-- AvengeMedia / DankMaterialShell
-- AhmedSaadi0 / NibrasShell
 - end-4 / dots-hyprland
 - ekremx25 / quickshell
 - tripathiji1312 / quickshell
@@ -766,28 +1028,12 @@ Code und Assets dürfen nicht kopiert werden.
 
 ---
 
-## ML4W Inspiration
+## Desktop Experience
 
-Folgende Konzepte sollen berücksichtigt werden:
-
-- Installer
-- Presets
-- Benutzerprofile
-- Update Strategie
-- Backup & Restore
-- Benutzerfreundlichkeit
-- Progressive Komplexität
-
----
-
-## Theme Inspiration
-
-- Keyitdev / sddm-astronaut-theme
-- catppuccin / sddm
-- xCaptaiN09 / pixie-sddm
-- 3ximus / aerial-sddm-theme
-- uiriansan / SilentSDDM
-- stepanzubkov / where-is-my-sddm-theme
+- AvengeMedia / DankMaterialShell
+- AhmedSaadi0 / NibrasShell
+- mylinuxforwork
+- rhythmcreative / hyprland
 
 ---
 
@@ -803,38 +1049,52 @@ Folgende Konzepte sollen berücksichtigt werden:
 
 ---
 
+## Theme Inspiration
+
+- Keyitdev / sddm-astronaut-theme
+- catppuccin / sddm
+- xCaptaiN09 / pixie-sddm
+- 3ximus / aerial-sddm-theme
+- uiriansan / SilentSDDM
+- stepanzubkov / where-is-my-sddm-theme
+
+---
+
 # Definition of Done
 
-Eine Aufgabe ist abgeschlossen wenn:
+A task is complete when:
 
-- Code funktioniert
-- Dokumentation vorhanden ist
-- Tests erfolgreich sind
-- Theme System unterstützt wird
-- Fehlermeldungen behandelt werden
-- Mehrmonitorbetrieb berücksichtigt wurde
-- Keine Architekturregeln verletzt werden
-
----
-
-# Agent Verhalten
-
-Bei Unklarheiten:
-
-1. README.md lesen
-2. ARCHITECTURE.md lesen
-3. ADRs lesen
-4. Bestehende Komponenten wiederverwenden
-5. Erst danach neuen Code erstellen
-
-Neue Architekturentscheidungen müssen als ADR dokumentiert werden.
+- Functionality works
+- Documentation exists
+- Tests pass
+- Theme compatibility exists
+- Multi-monitor support is considered
+- Error handling exists
+- Architecture rules are respected
 
 ---
 
-# Letzte Regel
+# Agent Workflow
 
-Wartbarkeit ist wichtiger als Features.
+Before implementing anything:
 
-Architektur ist wichtiger als Optik.
+```text
+1. Read README.md
+2. Read ARCHITECTURE.md
+3. Read relevant ADRs
+4. Reuse existing components
+5. Design solution
+6. Implement
+7. Test
+8. Document
+```
 
-Konsistenz ist wichtiger als Geschwindigkeit.
+---
+
+# Final Rule
+
+Maintainability is more important than features.
+
+Architecture is more important than appearance.
+
+Consistency is more important than speed.
