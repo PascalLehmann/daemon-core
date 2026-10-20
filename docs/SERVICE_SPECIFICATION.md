@@ -10,7 +10,29 @@ Last Updated: 2026-10-20
 
 # Purpose
 
-Definiert alle offiziellen Daemon-Core Services.
+Dieses Dokument definiert sämtliche offiziellen Daemon-Core Services.
+
+Services stellen die zentrale Business-Logik des Systems bereit.
+
+---
+
+# Service Principles
+
+## Single Responsibility
+
+Jeder Service besitzt genau eine Verantwortung.
+
+---
+
+## No UI
+
+Services dürfen keine UI-Komponenten enthalten.
+
+---
+
+## Framework Neutrality
+
+Services sollen unabhängig von einzelnen Anwendungen nutzbar sein.
 
 ---
 
@@ -18,53 +40,95 @@ Definiert alle offiziellen Daemon-Core Services.
 
 ## ConfigService
 
-Verantwortlich für:
+### Responsibility
 
-- config.json
+Verwaltung von:
+
+```text
+config.json
+```
+
+### Aufgaben
+
+- Laden
+- Speichern
+- Migrationen
+- Validierung
 
 ---
 
 ## SettingsService
 
-Verantwortlich für:
+### Responsibility
 
-- settings.json
+Verwaltung von:
+
+```text
+settings.json
+```
+
+### Aufgaben
+
+- Benutzereinstellungen
+- Feature Toggles
+- UI Einstellungen
 
 ---
 
 ## StateService
 
-Verantwortlich für:
+### Responsibility
 
-- Runtime State
+Verwaltung des Laufzeitzustands.
+
+### Beispiele
+
+- Aktiver Workspace
+- Aktives Fenster
+- Medienstatus
 
 ---
 
 ## ThemeService
 
-Verantwortlich für:
+### Responsibility
+
+Theme Verwaltung.
+
+### Aufgaben
 
 - Theme Loading
 - Theme Validation
 - Theme Switching
-
----
-
-## LoggerService
-
-Verantwortlich für:
-
-- Logging
-- Error Reporting
+- Hot Reload
 
 ---
 
 ## ProfileService
 
-Verantwortlich für:
+### Responsibility
 
-- Profile Loading
-- Profile Switching
+Profilverwaltung.
+
+### Aufgaben
+
+- Profile laden
+- Profile validieren
+- Profile wechseln
+
+---
+
+## LoggerService
+
+### Responsibility
+
+Zentrale Protokollierung.
+
+### Aufgaben
+
+- Logging
+- Fehlerberichte
+- Debugging
 
 ---
 
@@ -72,43 +136,79 @@ Verantwortlich für:
 
 ## SessionService
 
-Session Management.
+### Responsibility
+
+Desktop Session Management.
+
+### Aufgaben
+
+- Session Discovery
+- Session Launch
+- Session Information
 
 ---
 
 ## AudioService
 
-Audio Geräte.
+### Responsibility
+
+Audio Management.
+
+### Datenquellen
+
+- PipeWire
 
 ---
 
 ## NetworkService
 
-WiFi
-Ethernet
-VPN.
+### Responsibility
+
+Netzwerkstatus.
+
+### Datenquellen
+
+- NetworkManager
 
 ---
 
 ## BluetoothService
 
+### Responsibility
+
 Bluetooth Geräte.
 
----
+### Datenquellen
 
-## NotificationService
-
-Benachrichtigungen.
+- BlueZ
 
 ---
 
 ## WallpaperService
 
+### Responsibility
+
 Wallpaper Bereitstellung.
 
 ---
 
+## NotificationService
+
+### Responsibility
+
+Benachrichtigungen.
+
+### Aufgaben
+
+- Anzeigen
+- Historie
+- Priorisierung
+
+---
+
 ## PowerService
+
+### Responsibility
 
 Energieverwaltung.
 
@@ -116,17 +216,81 @@ Energieverwaltung.
 
 ## WeatherService
 
+### Responsibility
+
 Wetterdaten.
 
 ---
 
-# Abhängigkeitsregel
+# Service Communication
 
-Services dürfen:
+Erlaubt:
 
-- IPC verwenden
+```text
+Service
+ ↓
+Service
+```
 
-Services dürfen nicht:
+wenn keine zyklischen Abhängigkeiten entstehen.
 
-- UI Komponenten importieren
-- Feature Module importieren
+---
+
+# Forbidden Dependencies
+
+Nicht erlaubt:
+
+```text
+Service
+ ↓
+Feature Module
+```
+
+```text
+Service
+ ↓
+UI Component
+```
+
+---
+
+# Public API Rules
+
+Jeder Service muss bereitstellen:
+
+- Properties
+- Signals
+- Methoden
+
+---
+
+# Error Handling
+
+Jeder Service muss:
+
+- Fehler erkennen
+- Fehler protokollieren
+- Sichere Rückgabewerte liefern
+
+---
+
+# Logging
+
+Alle Services nutzen:
+
+```text
+LoggerService
+```
+
+Direkte Konsolenausgaben sind im Produktivbetrieb zu vermeiden.
+
+---
+
+# Definition of Done
+
+Ein Service ist abgeschlossen wenn:
+
+- Verantwortung klar definiert ist
+- Dokumentation existiert
+- Tests vorhanden sind
+- Fehler behandelt werden
