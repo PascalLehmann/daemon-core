@@ -149,7 +149,6 @@ Empfohlene Reihenfolge:
 import ...
 
 Item {
-
     id: root
 
     property ...
@@ -323,13 +322,14 @@ Properties:
 Signals:
     clicked()
 */
-``*
+```
 
 ---
 
-# Architekturregel*
-Business Logik gehört*in Services.
+# Architekturregel
 
-UI bleibt UI*
+Business Logik gehört in Services.
 
-Diese Regel darf*niemals verletzt werden.
+UI bleibt UI.
+
+Diese Regel darf niemals verletzt werden.
