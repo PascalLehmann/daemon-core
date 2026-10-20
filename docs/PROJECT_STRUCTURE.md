@@ -1,93 +1,85 @@
-# Project Structure
+# Logging Specification
 
 Version: 1.0
 
 Status: Active
 
-Last Updated: 2026-10-20
-
 ---
 
 # Purpose
 
-Dieses Dokument beschreibt die offizielle Struktur des Daemon-Core Repositories.
+Definiert Logging innerhalb von Daemon-Core.
 
 ---
 
-# Repository Layout
+# LoggerService
 
-daemon-core/
-
-├── .github/
-├── assets/
-├── config/
-├── docs/
-├── ipc/
-├── services/
-├── themes/
-│
-├── daemon-shared/
-├── daemon-theme/
-├── daemon-greeter/
-├── daemon-lockscreen/
-├── daemon-bar/
-├── daemon-dashboard/
-├── daemon-notifications/
-├── daemon-controlcenter/
-├── daemon-wallpaper/
+Alle Logs müssen LoggerService verwenden.
 
 ---
 
-# Verantwortlichkeiten
+# Log Levels
 
-## daemon-shared
+DEBUG
 
-Wiederverwendbare UI-Komponenten.
-
-Darf enthalten:
-
-- Buttons
-- Cards
-- Dialogs
-- Inputs
-
-Darf nicht enthalten:
-
-- Business Logic
-- Systemzugriffe
+Entwicklungsinformationen.
 
 ---
 
-## services
+INFO
 
-Business Logic.
-
----
-
-## ipc
-
-Systemadapter.
+Normale Informationen.
 
 ---
 
-## themes
+WARNING
 
-Alle Themes.
-
----
-
-## docs
-
-Dokumentation.
+Unerwartete Zustände.
 
 ---
 
-## config
+ERROR
 
-Schemas und Standardkonfigurationen.
+Fehler.
 
 ---
 
-## assets
+CRITICAL
 
-Fonts, Icons, Wallpaper, Sounds.
+Schwerwiegende Fehler.
+
+---
+
+# Verboten
+
+Passwörter loggen.
+
+Tokens loggen.
+
+API Keys loggen.
+
+---
+
+# Log Speicherort
+
+Geplant:
+
+~/.local/share/daemon-core/logs/
+
+---
+
+# Format
+
+2026-10-20T12:00:00Z
+INFO
+ThemeService
+Theme loaded
+
+---
+
+# Rotation
+
+Zukünftig:
+
+- maximale Dateigröße
+- alte Logs archivieren
