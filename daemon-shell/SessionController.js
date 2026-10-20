@@ -1,50 +1,35 @@
-export const SESSION_STATES = {
-    BOOT: 'boot',
-    GREETER: 'greeter',
-    LOCKSCREEN: 'lockscreen',
-    SESSION: 'session'
+import "SessionController.js" as SessionController
+
+var modules = {
+    greeter: '../daemon-greeter/main.qml',
+    bar: '../daemon-bar/main.qml',
+    lockscreen: '../daemon-lockscreen/main.qml',
+    dashboard: '../daemon-dashboard/main.qml',
+    controlcenter: '../daemon-controlcenter/main.qml',
+    shell: '../daemon-shell/main.qml'
 };
 
-export function normalizeSessionState(value, fallback = SESSION_STATES.BOOT) {
-    if (!value) {
-        return fallback;
+function getModuleSource(name) {
+    if (!name || !modules[name]) {
+        return modules.bar;
     }
 
-    const allowed = Object.values(SESSION_STATES);
-    return allowed.includes(value) ? value : fallback;
+    return modules[name];
 }
 
-export function getDefaultSessionState(profile) {
-    if (!profile) {
-        return SESSION_STATES.GREETER;
-    }
+function getModuleOrder(profileModules, sessionState) {
+    const profileList = Array.isArray(profileModules) && profileModules.length > 0
+        ? profileModules.filter(Boolean)
+        : ['bar', 'dashboard'];
 
-    if (profile.developerMode) {
-        return SESSION_STATES.SESSION;
-    }
-
-    return SESSION_STATES.GREETER;
+    const runtimeModules = SessionController.resolveRuntimeModules({ modules: profileList }, sessionState);
+    return runtimeModules;
 }
 
-export function resolveRuntimeModules(profile, sessionState) {
-    const defaultModules = ['bar', 'dashboard'];
-    const state = normalizeSessionState(sessionState, SESSION_STATES.BOOT);
+function getModuleSelection(profile, sessionState) {
+    const selectedModules = profile && Array.isArray(profile.modules) && profile.modules.length > 0
+        ? profile.modules
+        : ['bar', 'dashboard'];
 
-    if (state === SESSION_STATES.GREETER) {
-        return ['greeter'];
-    }
-
-    if (state === SESSION_STATES.LOCKSCREEN) {
-        return ['lockscreen'];
-    }
-
-    if (Array.isArray(profile?.modules) && profile.modules.length > 0) {
-        return profile.modules.filter(Boolean);
-    }
-
-    if (state === SESSION_STATES.SESSION) {
-        return defaultModules;
-    }
-
-    return ['bar'];
+    return getModuleOrder(selectedModules, sessionState);
 }
