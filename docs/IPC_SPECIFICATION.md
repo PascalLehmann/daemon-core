@@ -4,85 +4,196 @@ Version: 1.0
 
 Status: Active
 
+Last Updated: 2026-10-20
+
 ---
 
 # Purpose
 
-Definiert die Kommunikation zwischen Daemon-Core und externen Systemen.
+Dieses Dokument definiert die Kommunikation zwischen Daemon-Core und externen Systemen.
+
+---
+
+# Principles
+
+## Isolation
+
+Externe Systeme werden ausschließlich über die IPC-Schicht angesprochen.
+
+---
+
+## Encapsulation
+
+Features und UI kennen keine Protokolldetails.
+
+---
+
+## Service Access Only
+
+Nur Services dürfen IPC verwenden.
+
+---
+
+# IPC Layer
+
+```text
+Feature
+   ↓
+Service
+   ↓
+IPC
+   ↓
+System
+```
 
 ---
 
 # Hyprland IPC
 
-Verwendet für:
+## Purpose
 
-- Workspaces
-- Fenster
-- Monitor Informationen
-
-Konsument:
-
-- Bar
-- Dashboard
+Kommunikation mit Hyprland.
 
 ---
 
-# DBus
+## Daten
 
-Verwendet für:
+- Workspaces
+- Fenster
+- Monitore
+- Aktiver Workspace
 
-- Notifications
-- System Events
+---
 
-Konsument:
+## Konsumenten
 
-- NotificationService
+- Bar
+- Dashboard
 - SessionService
 
 ---
 
-# PipeWire
+# DBus IPC
 
-Verwendet für:
+## Purpose
+
+Systemkommunikation.
+
+---
+
+## Daten
+
+- Notifications
+- Session Events
+- Energieereignisse
+
+---
+
+## Konsumenten
+
+- NotificationService
+- SessionService
+- PowerService
+
+---
+
+# PipeWire IPC
+
+## Purpose
+
+Audio Kommunikation.
+
+---
+
+## Daten
 
 - Lautstärke
-- Devices
-- Medien
+- Geräte
+- Medieninformationen
 
-Konsument:
+---
+
+## Konsumenten
 
 - AudioService
 
 ---
 
-# BlueZ
+# BlueZ IPC
 
-Verwendet für:
+## Purpose
 
-- Bluetooth
+Bluetooth Integration.
 
-Konsument:
+---
+
+## Daten
+
+- Geräte
+- Status
+- Pairing
+
+---
+
+## Konsumenten
 
 - BluetoothService
 
 ---
 
-# NetworkManager
+# NetworkManager IPC
 
-Verwendet für:
+## Purpose
+
+Netzwerkverwaltung.
+
+---
+
+## Daten
 
 - WLAN
 - Ethernet
 - VPN
 
-Konsument:
+---
+
+## Konsumenten
 
 - NetworkService
 
 ---
 
-# Regel
+# Future IPC
 
-Nur Services dürfen IPC verwenden.
+Geplante Integrationen:
 
-UI-Komponenten dürfen niemals direkt auf IPC zugreifen.
+```text
+Portal APIs
+Systemd User Services
+Power Profiles
+```
+
+---
+
+# Security Rules
+
+IPC Layer darf:
+
+- Daten lesen
+- Zustände überwachen
+
+IPC Layer darf nicht:
+
+- UI rendern
+- Konfiguration speichern
+
+---
+
+# Definition of Done
+
+Eine IPC Integration gilt als abgeschlossen wenn:
+
+- Stabil verbunden
+- Fehler behandelt
+- Logging integriert
+- Service dokumentiert
