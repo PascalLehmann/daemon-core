@@ -5,12 +5,9 @@ Rectangle {
     id: root
     width: 1920
     height: 40
-    color: "#1e1e1e"
+    color: "#0f172a"
 
-    Text {
-        anchors.centerIn: parent
-        text: "Daemon Bar"
-        font.pixelSize: 16
-        color: "white"
+    Bar {
+        anchors.fill: parent
     }
 }

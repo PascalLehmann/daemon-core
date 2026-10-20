@@ -5,12 +5,9 @@ Rectangle {
     id: root
     width: 800
     height: 600
-    color: "black"
+    color: "#020817"
 
-    Text {
-        anchors.centerIn: parent
-        text: "Daemon Greeter"
-        font.pixelSize: 24
-        color: "white"
+    Greeter {
+        anchors.fill: parent
     }
 }
