@@ -1,1 +1,113 @@
+name: Daemon-Core CI
 
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+
+  lint:
+    name: Lint & Validation
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+
+      - name: Validate JSON files
+        run: |
+          find . -name "*.json" -type f -exec jq empty {} \;
+
+      - name: Validate YAML
+        uses: ibiqlik/action-yamllint@v3
+
+      - name: Markdown Lint
+        uses: DavidAnson/markdownlint-cli2-action@v18
+
+  structure:
+    name: Repository Structure
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify Required Files
+        run: |
+          test -f README.md
+          test -f AGENT.md
+          test -f ARCHITECTURE.md
+          test -f CHANGELOG.md
+
+      - name: Verify Documentation
+        run: |
+          test -f docs/ROADMAP.md
+          test -f docs/TESTING.md
+          test -f docs/SECURITY.md
+          test -f docs/INSTALLATION.md
+          test -f docs/THEME_SPECIFICATION.md
+          test -f docs/COMPONENT_SPECIFICATION.md
+          test -f docs/CONFIGURATION_SPECIFICATION.md
+
+  adr:
+    name: ADR Validation
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate ADR Files
+        run: |
+          test -f docs/adr/ADR-001-Wayland-First.md
+          test -f docs/adr/ADR-002-Theme-Engine.md
+          test -f docs/adr/ADR-003-Profiles.md
+          test -f docs/adr/ADR-004-Installer.md
+          test -f docs/adr/ADR-005-Backup-Restore.md
+          test -f docs/adr/ADR-006-Recovery-Mode.md
+          test -f docs/adr/ADR-007-Marketplace.md
+          test -f docs/adr/ADR-008-Configuration-Layers.md
+          test -f docs/adr/ADR-009-Update-Strategy.md
+          test -f docs/adr/ADR-010-Plugin-System.md
+
+  themes:
+    name: Theme Validation
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate Theme JSON
+        run: |
+          if [ -d themes ]; then
+            find themes -name "theme.json" -exec jq empty {} \;
+          fi
+
+  release-gate:
+    name: Release Gate
+
+    needs:
+      - lint
+      - structure
+      - adr
+      - themes
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Success
+        run: echo "All required checks passed."
