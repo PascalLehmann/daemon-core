@@ -1,64 +1,55 @@
 import QtQuick
 import QtQuick.Controls
-import "../daemon-theme/ThemeTokens.qml"
-import "../services/SettingsService.js" as SettingsService
+import "../daemon-shared/Style.qml" as SharedStyle
+import "../services/ConfigService.js" as ConfigService
+import "../services/StateService.js" as StateService
 
 Rectangle {
     id: root
-    width: 620
-    height: 720
-    color: tokens.surfaceElevated
+    width: 1920
+    height: 40
+    color: style.surface
 
-    ThemeTokens {
-        id: tokens
+    property var style: SharedStyle {}
+    property var config: ConfigService.loadConfig()
+    property var state: StateService.loadState()
+
+    Component.onCompleted: {
+        style.apply(config.theme || "daemon-dark");
     }
 
-    property var settings: SettingsService.loadSettings()
-
-    Column {
-        anchors.centerIn: parent
-        width: 420
-        spacing: tokens.spacingMd
+    Row {
+        anchors.fill: parent
+        anchors.leftMargin: style.spacingMd
+        anchors.rightMargin: style.spacingMd
+        spacing: style.spacingSm
 
         Text {
-            text: "Control Center"
-            color: tokens.text
-            font.pixelSize: tokens.fontSizeHeading
+            text: "Daemon-Core"
+            color: style.text
+            font.pixelSize: style.fontSizeBody
             font.bold: true
+            anchors.verticalCenter: parent.verticalCenter
         }
 
-        Repeater {
-            model: [
-                { label: "Animations", value: settings.animations },
-                { label: "Blur", value: settings.blur },
-                { label: "Weather", value: settings.showWeather },
-                { label: "High contrast", value: settings.highContrast }
-            ]
+        Text {
+            text: "Workspace " + state.lastWorkspace
+            color: style.textSecondary
+            font.pixelSize: 12
+            anchors.verticalCenter: parent.verticalCenter
+        }
 
-            delegate: Rectangle {
-                width: 420
-                height: 52
-                radius: tokens.radiusMd
-                color: tokens.surfaceAlt
+        Item {
+            width: 0
+            height: 0
+            Layout.fillWidth: true
+        }
 
-                Text {
-                    anchors.left: parent.left
-                    anchors.leftMargin: tokens.spacingMd
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: modelData.label
-                    color: tokens.text
-                    font.pixelSize: tokens.fontSizeBody
-                }
-
-                Text {
-                    anchors.right: parent.right
-                    anchors.rightMargin: tokens.spacingMd
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: modelData.value ? "On" : "Off"
-                    color: tokens.accentSoft
-                    font.pixelSize: tokens.fontSizeCaption
-                }
-            }
+        Text {
+            text: "Theme: " + config.theme
+            color: style.textSecondary
+            font.pixelSize: 12
+            anchors.verticalCenter: parent.verticalCenter
         }
     }
 }
