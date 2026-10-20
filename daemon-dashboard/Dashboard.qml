@@ -1,52 +1,50 @@
 import QtQuick
 import QtQuick.Controls
-import Quickshell
+import "../daemon-theme/ThemeTokens.qml"
 import "../services/ConfigService.js" as ConfigService
-import "../services/SettingsService.js" as SettingsService
+import "../services/ThemeService.js" as ThemeService
 
 Rectangle {
     id: root
     width: 1280
     height: 720
-    color: "#0f172a"
+    color: tokens.background
+
+    ThemeTokens {
+        id: tokens
+    }
 
     property var config: ConfigService.loadConfig()
-    property var settings: SettingsService.loadSettings()
+    property var manifest: ThemeService.loadThemeManifest(config.theme)
 
     Column {
         anchors.centerIn: parent
-        spacing: 16
+        spacing: tokens.spacingLg
 
         Text {
-            text: "Dashboard"
-            color: "#f8fafc"
-            font.pixelSize: 30
+            text: "Lockscreen"
+            color: tokens.text
+            font.pixelSize: tokens.fontSizeHeading
             font.bold: true
         }
 
         Text {
-            text: "Active profile: " + config.profile
-            color: "#cbd5e1"
-            font.pixelSize: 16
-        }
-
-        Text {
-            text: "Animations enabled: " + settings.animations
-            color: "#cbd5e1"
-            font.pixelSize: 16
+            text: "Theme: " + (manifest ? manifest.name : config.theme)
+            color: tokens.textSecondary
+            font.pixelSize: tokens.fontSizeBody
         }
 
         Rectangle {
-            width: 520
-            height: 64
-            radius: 12
-            color: "#1e293b"
+            width: 360
+            height: 52
+            radius: tokens.radiusLg
+            color: tokens.surfaceAlt
 
             Text {
                 anchors.centerIn: parent
-                text: "Search apps or files"
-                color: "#94a3b8"
-                font.pixelSize: 16
+                text: "Unlock"
+                color: tokens.text
+                font.pixelSize: tokens.fontSizeTitle
             }
         }
     }

@@ -3,11 +3,11 @@ import Quickshell
 
 Rectangle {
     id: root
-    width: 620
+    width: 1280
     height: 720
-    color: "#111827"
+    color: "#0f172a"
 
-    ControlCenter {
+    Dashboard {
         anchors.fill: parent
     }
 }

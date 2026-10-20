@@ -3,11 +3,11 @@ import Quickshell
 
 Rectangle {
     id: root
-    width: 800
-    height: 600
-    color: "#020817"
+    width: 1920
+    height: 40
+    color: "#0f172a"
 
-    Greeter {
+    Bar {
         anchors.fill: parent
     }
 }

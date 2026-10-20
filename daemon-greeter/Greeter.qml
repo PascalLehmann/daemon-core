@@ -1,54 +1,48 @@
 import QtQuick
 import QtQuick.Controls
-import Quickshell
-import "../services/ConfigService.js" as ConfigService
-import "../services/StateService.js" as StateService
+import "../daemon-theme/ThemeTokens.qml"
 
 Rectangle {
     id: root
-    width: 800
-    height: 600
-    color: "#020817"
+    width: 1920
+    height: 40
+    color: tokens.surface
+
+    ThemeTokens {
+        id: tokens
+    }
 
     property var config: ConfigService.loadConfig()
     property var state: StateService.loadState()
 
-    Column {
-        anchors.centerIn: parent
-        spacing: 18
+    Row {
+        anchors.fill: parent
+        anchors.leftMargin: tokens.spacingMd
+        anchors.rightMargin: tokens.spacingMd
+        spacing: tokens.spacingSm
 
         Text {
-            text: "Daemon Greeter"
-            color: "#f8fafc"
-            font.pixelSize: 30
+            text: "Daemon-Core"
+            color: tokens.text
+            font.pixelSize: tokens.fontSizeBody
             font.bold: true
+            anchors.verticalCenter: parent.verticalCenter
         }
 
         Text {
-            text: "Profile: " + config.profile
-            color: "#cbd5e1"
-            font.pixelSize: 16
+            text: "Workspace " + state.lastWorkspace
+            color: tokens.textSecondary
+            font.pixelSize: 12
+            anchors.verticalCenter: parent.verticalCenter
         }
+
+        Item { Layout.fillWidth: true }
 
         Text {
-            text: "Last workspace: " + state.lastWorkspace
-            color: "#cbd5e1"
-            font.pixelSize: 16
-        }
-
-        Rectangle {
-            width: 320
-            height: 42
-            radius: 12
-            color: "#1e293b"
-
-            TextInput {
-                anchors.fill: parent
-                anchors.margins: 10
-                color: "#f8fafc"
-                text: "Password"
-                echoMode: TextInput.Password
-            }
+            text: "Theme: " + config.theme
+            color: tokens.textSecondary
+            font.pixelSize: 12
+            anchors.verticalCenter: parent.verticalCenter
         }
     }
 }

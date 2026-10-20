@@ -1,59 +1,56 @@
 import QtQuick
 import QtQuick.Controls
-import Quickshell
+import "../daemon-theme/ThemeTokens.qml"
+import "../services/ConfigService.js" as ConfigService
 import "../services/SettingsService.js" as SettingsService
 
 Rectangle {
     id: root
-    width: 620
+    width: 1280
     height: 720
-    color: "#111827"
+    color: tokens.background
 
+    ThemeTokens {
+        id: tokens
+    }
+
+    property var config: ConfigService.loadConfig()
     property var settings: SettingsService.loadSettings()
 
     Column {
         anchors.centerIn: parent
-        width: 420
-        spacing: 16
+        spacing: tokens.spacingLg
 
         Text {
-            text: "Control Center"
-            color: "#f8fafc"
-            font.pixelSize: 28
+            text: "Dashboard"
+            color: tokens.text
+            font.pixelSize: tokens.fontSizeHeading
             font.bold: true
         }
 
-        Repeater {
-            model: [
-                { label: "Animations", value: settings.animations },
-                { label: "Blur", value: settings.blur },
-                { label: "Weather", value: settings.showWeather },
-                { label: "High contrast", value: settings.highContrast }
-            ]
+        Text {
+            text: "Active profile: " + config.profile
+            color: tokens.textSecondary
+            font.pixelSize: tokens.fontSizeBody
+        }
 
-            delegate: Rectangle {
-                width: 420
-                height: 52
-                radius: 12
-                color: "#1f2937"
+        Text {
+            text: "Animations enabled: " + settings.animations
+            color: tokens.textSecondary
+            font.pixelSize: tokens.fontSizeBody
+        }
 
-                Text {
-                    anchors.left: parent.left
-                    anchors.leftMargin: 16
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: modelData.label
-                    color: "#e2e8f0"
-                    font.pixelSize: 16
-                }
+        Rectangle {
+            width: 520
+            height: 64
+            radius: tokens.radiusMd
+            color: tokens.surfaceAlt
 
-                Text {
-                    anchors.right: parent.right
-                    anchors.rightMargin: 16
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: modelData.value ? "On" : "Off"
-                    color: "#a5f3fc"
-                    font.pixelSize: 14
-                }
+            Text {
+                anchors.centerIn: parent
+                text: "Search apps or files"
+                color: tokens.muted
+                font.pixelSize: tokens.fontSizeBody
             }
         }
     }

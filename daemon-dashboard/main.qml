@@ -5,9 +5,9 @@ Rectangle {
     id: root
     width: 1280
     height: 720
-    color: "#0f172a"
+    color: "#020617"
 
-    Dashboard {
+    Lockscreen {
         anchors.fill: parent
     }
 }

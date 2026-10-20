@@ -1,46 +1,57 @@
 import QtQuick
 import QtQuick.Controls
-import Quickshell
+import "../daemon-theme/ThemeTokens.qml"
 import "../services/ConfigService.js" as ConfigService
-import "../services/ThemeService.js" as ThemeService
+import "../services/StateService.js" as StateService
 
 Rectangle {
     id: root
-    width: 1280
-    height: 720
-    color: "#020617"
+    width: 800
+    height: 600
+    color: tokens.background
+
+    ThemeTokens {
+        id: tokens
+    }
 
     property var config: ConfigService.loadConfig()
-    property var manifest: ThemeService.loadThemeManifest(config.theme)
+    property var state: StateService.loadState()
 
     Column {
         anchors.centerIn: parent
-        spacing: 18
+        spacing: tokens.spacingLg
 
         Text {
-            text: "Lockscreen"
-            color: "#f8fafc"
-            font.pixelSize: 32
+            text: "Daemon Greeter"
+            color: tokens.text
+            font.pixelSize: tokens.fontSizeHeading
             font.bold: true
         }
 
         Text {
-            text: "Theme: " + (manifest ? manifest.name : config.theme)
-            color: "#cbd5e1"
-            font.pixelSize: 16
+            text: "Profile: " + config.profile
+            color: tokens.textSecondary
+            font.pixelSize: tokens.fontSizeBody
+        }
+
+        Text {
+            text: "Last workspace: " + state.lastWorkspace
+            color: tokens.textSecondary
+            font.pixelSize: tokens.fontSizeBody
         }
 
         Rectangle {
-            width: 360
-            height: 52
-            radius: 14
-            color: "#1e293b"
+            width: 320
+            height: 42
+            radius: tokens.radiusMd
+            color: tokens.surfaceAlt
 
-            Text {
-                anchors.centerIn: parent
-                text: "Unlock"
-                color: "#f8fafc"
-                font.pixelSize: 18
+            TextInput {
+                anchors.fill: parent
+                anchors.margins: tokens.spacingSm
+                color: tokens.text
+                text: "Password"
+                echoMode: TextInput.Password
             }
         }
     }

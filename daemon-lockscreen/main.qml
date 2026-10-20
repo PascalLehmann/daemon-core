@@ -3,11 +3,11 @@ import Quickshell
 
 Rectangle {
     id: root
-    width: 1280
-    height: 720
-    color: "#020617"
+    width: 800
+    height: 600
+    color: "#020817"
 
-    Lockscreen {
+    Greeter {
         anchors.fill: parent
     }
 }

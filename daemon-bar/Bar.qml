@@ -1,44 +1,19 @@
 import QtQuick
-import QtQuick.Controls
-import Quickshell
 
-Rectangle {
-    id: root
-    width: 1920
-    height: 40
-    color: "#111827"
-
-    property var config: ConfigService.loadConfig()
-    property var state: StateService.loadState()
-
-    Row {
-        anchors.fill: parent
-        anchors.leftMargin: 12
-        anchors.rightMargin: 12
-        spacing: 12
-
-        Text {
-            text: "Daemon-Core"
-            color: "#f8fafc"
-            font.pixelSize: 14
-            font.bold: true
-            anchors.verticalCenter: parent.verticalCenter
-        }
-
-        Text {
-            text: "Workspace " + state.lastWorkspace
-            color: "#cbd5e1"
-            font.pixelSize: 12
-            anchors.verticalCenter: parent.verticalCenter
-        }
-
-        Item { Layout.fillWidth: true }
-
-        Text {
-            text: "Theme: " + config.theme
-            color: "#cbd5e1"
-            font.pixelSize: 12
-            anchors.verticalCenter: parent.verticalCenter
-        }
-    }
+QtObject {
+    property string background: "#020817"
+    property string surface: "#0f172a"
+    property string surfaceAlt: "#1e293b"
+    property string text: "#f8fafc"
+    property string textSecondary: "#cbd5e1"
+    property string muted: "#94a3b8"
+    property string accent: "#7c3aed"
+    property string accentSoft: "#a78bfa"
+    property string border: "#334155"
+    property int radiusSm: 8
+    property int radiusMd: 12
+    property int radiusLg: 20
+    property int spacingSm: 8
+    property int spacingMd: 12
+    property int spacingLg: 20
 }
